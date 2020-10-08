@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { Suspense } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import routes from './config/routes'
 
-
-function App() {
+function App () {
   return (
-    <div >
-      Hello
-    </div>
-  );
+    <Router>
+      <Suspense>
+        <Switch>
+          {Object.keys(routes).map(routeKey => (
+            <Route key={routeKey} {...routes[routeKey]} />
+          ))}
+        </Switch>
+      </Suspense>
+    </Router>
+  )
 }
 
-export default App;
+export default App
