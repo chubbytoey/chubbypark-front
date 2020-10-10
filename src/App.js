@@ -1,29 +1,15 @@
 import React, { Suspense } from 'react'
-import { createGlobalStyle } from 'styled-components'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import routes from './config/routes'
-
-const GlobalStyle = createGlobalStyle`
-html,
-body,
-#root {
-  height: 100vh;
-  width: 100vw;
-  font-size: 20px;
-  font-family: "Roboto", sans-serif;
-}
-* {
-  margin: 0;
-  padding: 0;
-}
-`
+import withHelmet from './utils/withHelmet'
+import GlobalStyle from './components/GlobalStyle'
 
 function App () {
   return (
     <>
-    <GlobalStyle/>
+      <GlobalStyle />
       <Router>
-        <Suspense fallback="...loading">
+        <Suspense fallback='...loading'>
           <Switch>
             {Object.keys(routes).map(routeKey => (
               <Route key={routeKey} {...routes[routeKey]} />
@@ -35,4 +21,4 @@ function App () {
   )
 }
 
-export default App
+export default withHelmet('CHUBBYPARK')(App)
