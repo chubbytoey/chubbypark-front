@@ -1,29 +1,40 @@
 import React from 'react'
 import styled from 'styled-components'
+import userIcon from '../assets/user-icon.png'
 
 const NavbarContainer = styled.div`
   border: none;
   outline: none;
-  color: #cb4a94;
+  color: #DD4A9E;
   display: flex;
   flex-direction: column;
   height: 20vh;
-  box-shadow: 5px 1px 20px #aaa;
+  box-shadow: 2px 1px 7px #DBDBDB;
 `
+const NavbarUserIcon = styled.div`
+  background-image: url(${props => props.src});
+  background-size:cover;
+  margin:0 0.5rem;
+  width:1.3rem;
+  height:1.2rem;
+`
+
 const NavbarSignin = styled.div`
   flex: 2;
   display: flex;
   justify-content: flex-end;
-  align-items: center;
-  padding: 0 1rem;
-  font-size: 1rem;
+  align-items:center;
+  padding: 0 2rem;
+  font-size: 0.7rem;
+  font-weight:bold;
+  text-transform:uppercase;
 `
 const NavbarTitle = styled.div`
   flex: 3;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: xx-large;
+  font-size: 1.8rem;
   font-weight: bold;
 `
 const NavbarMenu = styled.div`
@@ -31,19 +42,26 @@ const NavbarMenu = styled.div`
   display: flex;
   align-items: baseline;
   justify-content: center;
+
   ul {
     list-style-type: none;
   }
   li {
+    font-size:0.9rem;
+    letter-spacing:0.05rem;
     display: inline;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
+    text-transform:uppercase;
   }
 `
 
 function Navbar () {
   return (
     <NavbarContainer>
-      <NavbarSignin>sign in</NavbarSignin>
+      <NavbarSignin>
+        <NavbarUserIcon src={userIcon} />
+        sign in
+      </NavbarSignin>
       <NavbarTitle>CHUBBYPARK</NavbarTitle>
       <NavbarMenu>
         <ul>
