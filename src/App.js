@@ -21,9 +21,9 @@ body,
 function App () {
   return (
     <>
-    <GlobalStyle/>
+      <GlobalStyle />
       <Router>
-        <Suspense fallback="...loading">
+        <Suspense fallback='...loading'>
           <Switch>
             {Object.keys(routes).map(routeKey => (
               <Route key={routeKey} {...routes[routeKey]} />
