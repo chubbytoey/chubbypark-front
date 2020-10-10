@@ -8,6 +8,10 @@ export default {
   },
   Signin: {
     path: '/signin',
-    component:lazy(() => import('../pages/Signin'))
+    component: lazy(() => import('../pages/Signin'))
+  },
+  Faq: {
+    path: '/faq',
+    component: lazy(() => import('../pages/Faq'))
   }
 }
