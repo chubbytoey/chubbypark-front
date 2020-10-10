@@ -4,7 +4,7 @@ import styled from 'styled-components'
 function Footer () {
   const FooterContainer = styled.div`
     display: flex;
-    background-color: #d147a3;
+    background-color: #D04394;
     height: 35vh;
     width: 100%;
     justify-content: space-between;
