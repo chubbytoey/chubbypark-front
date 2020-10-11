@@ -15,8 +15,8 @@ const NavbarUserIcon = styled.div`
   background-image: url(${props => props.src});
   background-size:cover;
   margin:0 0.5rem;
-  width:1.3rem;
-  height:1.2rem;
+  width:1.02rem;
+  height:.91rem;
 `
 
 const NavbarSignin = styled.div`
