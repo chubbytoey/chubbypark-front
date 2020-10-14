@@ -35,15 +35,25 @@ const ItemTitle = styled.h4`
   font-weight: bold;
 `
 
-const ItemList = styled.div`
-  color: white;
-  font-size: 0.7rem;
-  margin: 0.3rem 0;
-  font-weight: lighter;
-  display: flex;
-  align-items:center;
-`
+// const ItemList = styled.div`
+//   color: white;
+//   font-size: 0.7rem;
+//   margin: 0.3rem 0;
+//   font-weight: lighter;
+//   display: flex;
+//   align-items:center;
+// `
 
+const ItemList = styled.div`
+    color: white;
+    font-size: 0.7rem;
+    margin: 0.3rem 0;
+    font-weight:lighter;
+    display:flex;
+    div{
+      margin-right:1rem;
+    }
+  `
 const FooterCopyright = styled.div`
   color: white;
   display: flex;

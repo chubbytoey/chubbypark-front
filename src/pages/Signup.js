@@ -7,15 +7,15 @@ import UsernameIcon from '../assets/username-icon.png'
 import { Icon } from '../components/IconLayout'
 
 const Content = styled.div`
-  height: 67vh;
+  height: 85vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background:#fff;
+  /* background:#fff; */
 `
 const SigninBlock = styled.div`
   width: 28rem;
-  height: 17rem;
+  height: 25rem;
   border-radius: 10px;
   box-shadow: 2px 1px 20px #dbdbdb;
   background-color: #fff;
@@ -55,19 +55,6 @@ const SigninInput = styled.input`
   }
 `
 
-const ForgetPasswordBlock = styled.div`
-  width: 19rem;
-  display: flex;
-  justify-content: flex-end;
-`
-
-const ForgetPassword = styled.h3`
-  color: #aaa;
-  font-size: 0.5rem;
-  text-decoration: underline;
-  text-transform: lowercase;
-`
-
 const SigninButton = styled.button`
   border: none;
   outline: none;
@@ -85,14 +72,14 @@ const SigninButton = styled.button`
   }
 `
 
-function Signin () {
+function Signup () {
   return (
     <>
       <Navbar />
       <Content>
         <SigninBlock>
           <SigninBlockLayout>
-            <SigninBlockTitle>sign in</SigninBlockTitle>
+            <SigninBlockTitle>sign up</SigninBlockTitle>
 
             <SigninInputBlock>
               <SigninInput placeholder='username' />
@@ -102,12 +89,19 @@ function Signin () {
               <SigninInput placeholder='password' />
               <Icon src={PasswordIcon} />
             </SigninInputBlock>
+            <SigninInputBlock>
+              <SigninInput placeholder='first name' />
+              <Icon src={UsernameIcon} />
+            </SigninInputBlock>
+            <SigninInputBlock>
+              <SigninInput placeholder='last name' />
+              <Icon src={UsernameIcon} />
+            </SigninInputBlock>
+            <SigninInputBlock>
+              <SigninInput type='number' placeholder='age' />
+            </SigninInputBlock>
 
-            <ForgetPasswordBlock>
-              <ForgetPassword>Forget Password</ForgetPassword>
-            </ForgetPasswordBlock>
-
-            <SigninButton>LOG IN</SigninButton>
+            <SigninButton>SIGN UP</SigninButton>
           </SigninBlockLayout>
         </SigninBlock>
       </Content>
@@ -115,4 +109,4 @@ function Signin () {
     </>
   )
 }
-export default Signin
+export default Signup
