@@ -16,15 +16,17 @@ const QuestionSide = styled.ul`
   height: 80vh;
   overflow: scroll;
 `
-const Question = styled.li`
+const Question = styled.span`
   height: 20vh;
   border-bottom: 1px solid #d147a3;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   color: #d147a3;
   font-size: 1rem;
   font-weight: 600;
+  padding: 0 2rem;
+
   cursor: pointer;
   transition: background-color 0.3s;
 
@@ -41,17 +43,16 @@ const AnswerSide = styled.div`
   display: flex;
   height: 80vh;
   overflow: scroll;
-  justify-content:center;
-  align-items:center;
-  
+  justify-content: center;
+  align-items: center;
 `
 
 const Answer = styled.div`
   color: #fff;
- padding:2rem;
-  
+  padding: 5% 15%;
+
   font-size: 1.2rem;
-  line-height:1.6;
+  line-height: 1.6;
 `
 
 function FaqContent () {
