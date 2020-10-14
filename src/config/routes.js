@@ -10,6 +10,10 @@ export default {
     path: '/signin',
     component: lazy(() => import('../pages/Signin'))
   },
+  Signup: {
+    path: '/signup',
+    component: lazy(() => import('../pages/Signup'))
+  },
   Faq: {
     path: '/faq',
     component: lazy(() => import('../pages/Faq'))
