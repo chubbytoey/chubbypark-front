@@ -41,6 +41,9 @@ function Footer () {
     margin: 0.3rem 0;
     font-weight:lighter;
     display:flex;
+    div{
+      margin-right:1rem;
+    }
   `
 
   const FooterCopyright = styled.div`
