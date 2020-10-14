@@ -13,5 +13,9 @@ export default {
   Faq: {
     path: '/faq',
     component: lazy(() => import('../pages/Faq'))
+  },
+  ParkingArea: {
+    path: '/parkingarea',
+    component: lazy(() => import('../pages/ParkingArea'))
   }
 }
