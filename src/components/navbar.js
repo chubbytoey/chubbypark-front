@@ -10,6 +10,8 @@ const NavbarContainer = styled.div`
   flex-direction: column;
   height: 20vh;
   box-shadow: 2px 1px 7px #DBDBDB;
+  position:relative;
+  z-index:1000;
 `
 const NavbarUserIcon = styled.div`
   background-image: url(${props => props.src});
@@ -68,7 +70,7 @@ function Navbar () {
           <li>Home</li>
           <li>Reservation</li>
           <li>Promotion</li>
-          <li>Help</li>
+          <li>FAQ</li>
         </ul>
       </NavbarMenu>
     </NavbarContainer>
