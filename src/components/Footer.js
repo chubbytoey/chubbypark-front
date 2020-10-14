@@ -9,8 +9,10 @@ const FooterContainer = styled.div`
   display: flex;
   background-color: #d04394;
   height: 30vh;
-  width: 100%;
+  width: 100vw;
   justify-content: space-between;
+  
+
 `
 const FooterContent = styled.div`
   display: flex;
