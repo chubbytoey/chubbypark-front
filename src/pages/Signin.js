@@ -11,7 +11,7 @@ const Content = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background:#fff; */
+  background:#fff;
 `
 const SigninBlock = styled.div`
   width: 28rem;
