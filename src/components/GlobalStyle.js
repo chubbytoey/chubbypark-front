@@ -9,6 +9,13 @@ const GlobalStyle = createGlobalStyle`
     scroll-behavior: smooth;
     font-family: 'HelveticaNeue' , sans-serif;
 
+    @media only screen and (max-width:400px){
+    width: auto;
+    height: auto;
+    overflow-x:hidden;
+    font-size:12px;
+}
+
   }
 
 `
