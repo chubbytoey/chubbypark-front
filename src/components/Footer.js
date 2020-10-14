@@ -35,15 +35,6 @@ const ItemTitle = styled.h4`
   font-weight: bold;
 `
 
-// const ItemList = styled.div`
-//   color: white;
-//   font-size: 0.7rem;
-//   margin: 0.3rem 0;
-//   font-weight: lighter;
-//   display: flex;
-//   align-items:center;
-// `
-
 const ItemList = styled.div`
     color: white;
     font-size: 0.7rem;
