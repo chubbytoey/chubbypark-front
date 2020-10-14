@@ -35,7 +35,6 @@ const Question = styled.span`
     color: #fff;
   }
 `
-
 const AnswerSide = styled.div`
   flex: 2;
   background-color: #000;
@@ -46,10 +45,10 @@ const AnswerSide = styled.div`
   justify-content: center;
   align-items: center;
 `
-
 const Answer = styled.div`
   color: #fff;
-  padding: 5% 15%;
+  padding: 2rem;
+  /* padding: 2rem 2rem 1rem 2rem; */
 
   font-size: 1.2rem;
   line-height: 1.6;
