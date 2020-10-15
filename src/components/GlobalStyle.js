@@ -14,8 +14,14 @@ const GlobalStyle = createGlobalStyle`
     height: auto;
     overflow-x:hidden;
     font-size:12px;
-}
-
+    }
+  }
+  a {
+    text-decoration: none;
+    color:inherit;
+  }
+  &:visited {
+    color:inherit;
   }
 
 `
