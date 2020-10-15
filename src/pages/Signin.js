@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
+import Navbar from '../components/navbar'
 import Footer from '../components/Footer'
 import styled from 'styled-components'
 import PasswordIcon from '../assets/password-icon.png'
@@ -11,15 +11,46 @@ const Content = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background:#fff;
+  background: #fff;
 `
+const SignInWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+`
+
+const SideButton = styled.div`
+  width: 2rem;
+  height: 12vh;
+  background-color: #d04394;
+  position: absolute;
+  margin-top: 2rem;
+  border-radius: 10px 0 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    background-color: #e04fa2;
+  }
+`
+const SideText = styled.div`
+  color: #fff;
+  padding: 0.2rem;
+  writing-mode: vertical-rl;
+  font-size: 0.7rem;
+  transform: rotate(180deg);
+`
+
 const SigninBlock = styled.div`
+  margin: 0 2rem;
   width: 28rem;
   height: 17rem;
   border-radius: 10px;
   box-shadow: 2px 1px 20px #dbdbdb;
   background-color: #fff;
 `
+
 const SigninBlockLayout = styled.div`
   display: flex;
   flex-direction: column;
@@ -90,26 +121,32 @@ function Signin () {
     <>
       <Navbar />
       <Content>
-        <SigninBlock>
-          <SigninBlockLayout>
-            <SigninBlockTitle>sign in</SigninBlockTitle>
 
-            <SigninInputBlock>
-              <SigninInput placeholder='username' />
-              <Icon src={UsernameIcon} />
-            </SigninInputBlock>
-            <SigninInputBlock>
-              <SigninInput type='password' placeholder='password' />
-              <Icon src={PasswordIcon} />
-            </SigninInputBlock>
+        <SignInWrapper>
+          <SideButton as='a'>
+            <SideText>SIGN UP</SideText>
+          </SideButton>
+          <SigninBlock>
+            <SigninBlockLayout>
+              <SigninBlockTitle>sign in</SigninBlockTitle>
 
-            <ForgetPasswordBlock>
-              <ForgetPassword>Forget Password</ForgetPassword>
-            </ForgetPasswordBlock>
+              <SigninInputBlock>
+                <SigninInput placeholder='username' />
+                <Icon src={UsernameIcon} />
+              </SigninInputBlock>
+              <SigninInputBlock>
+                <SigninInput type='password' placeholder='password' />
+                <Icon src={PasswordIcon} />
+              </SigninInputBlock>
 
-            <SigninButton>LOG IN</SigninButton>
-          </SigninBlockLayout>
-        </SigninBlock>
+              <ForgetPasswordBlock>
+                <ForgetPassword>Forget Password</ForgetPassword>
+              </ForgetPasswordBlock>
+
+              <SigninButton>LOG IN</SigninButton>
+            </SigninBlockLayout>
+          </SigninBlock>
+        </SignInWrapper>
       </Content>
       <Footer />
     </>
