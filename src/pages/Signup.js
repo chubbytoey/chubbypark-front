@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
+import Navbar from '../components/navbar'
 import Footer from '../components/Footer'
 import styled from 'styled-components'
 import PasswordIcon from '../assets/password-icon.png'
@@ -13,7 +13,37 @@ const Content = styled.div`
   align-items: center;
   /* background:#fff; */
 `
+const SignInWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+`
+
+const SideButton = styled.div`
+  width: 2rem;
+  height: 12vh;
+  background-color: #d04394;
+  position: absolute;
+  margin-top: 2rem;
+  border-radius: 10px 0 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    background-color: #e04fa2;
+  }
+`
+const SideText = styled.div`
+  color: #fff;
+  padding: 0.2rem;
+  writing-mode: vertical-rl;
+  font-size: 0.7rem;
+  transform: rotate(180deg);
+`
+
 const SigninBlock = styled.div`
+  margin: 0 2rem;
   width: 28rem;
   height: 25rem;
   border-radius: 10px;
@@ -77,33 +107,38 @@ function Signup () {
     <>
       <Navbar />
       <Content>
-        <SigninBlock>
-          <SigninBlockLayout>
-            <SigninBlockTitle>sign up</SigninBlockTitle>
+        <SignInWrapper>
+          <SideButton as='a'>
+            <SideText>SIGN IN</SideText>
+          </SideButton>
+          <SigninBlock>
+            <SigninBlockLayout>
+              <SigninBlockTitle>sign up</SigninBlockTitle>
 
-            <SigninInputBlock>
-              <SigninInput placeholder='username' />
-              <Icon src={UsernameIcon} />
-            </SigninInputBlock>
-            <SigninInputBlock>
-              <SigninInput placeholder='password' />
-              <Icon src={PasswordIcon} />
-            </SigninInputBlock>
-            <SigninInputBlock>
-              <SigninInput placeholder='first name' />
-              <Icon src={UsernameIcon} />
-            </SigninInputBlock>
-            <SigninInputBlock>
-              <SigninInput placeholder='last name' />
-              <Icon src={UsernameIcon} />
-            </SigninInputBlock>
-            <SigninInputBlock>
-              <SigninInput type='number' placeholder='age' />
-            </SigninInputBlock>
+              <SigninInputBlock>
+                <SigninInput placeholder='username' />
+                <Icon src={UsernameIcon} />
+              </SigninInputBlock>
+              <SigninInputBlock>
+                <SigninInput placeholder='password' />
+                <Icon src={PasswordIcon} />
+              </SigninInputBlock>
+              <SigninInputBlock>
+                <SigninInput placeholder='first name' />
+                <Icon src={UsernameIcon} />
+              </SigninInputBlock>
+              <SigninInputBlock>
+                <SigninInput placeholder='last name' />
+                <Icon src={UsernameIcon} />
+              </SigninInputBlock>
+              <SigninInputBlock>
+                <SigninInput type='number' placeholder='age' />
+              </SigninInputBlock>
 
-            <SigninButton>SIGN UP</SigninButton>
-          </SigninBlockLayout>
-        </SigninBlock>
+              <SigninButton>SIGN UP</SigninButton>
+            </SigninBlockLayout>
+          </SigninBlock>
+        </SignInWrapper>
       </Content>
       <Footer />
     </>
