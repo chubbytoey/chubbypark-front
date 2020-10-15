@@ -99,7 +99,7 @@ function Signin () {
               <Icon src={UsernameIcon} />
             </SigninInputBlock>
             <SigninInputBlock>
-              <SigninInput placeholder='password' />
+              <SigninInput type='password' placeholder='password' />
               <Icon src={PasswordIcon} />
             </SigninInputBlock>
 
