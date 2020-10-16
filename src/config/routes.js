@@ -17,6 +17,10 @@ export default {
   Faq: {
     path: '/faq',
     component: lazy(() => import('../pages/Faq'))
+  },
+  Profile: {
+    path: '/profile',
+    component: lazy(() => import('../pages/Profile'))
   }
   // ,
   // ParkingArea: {
