@@ -21,10 +21,9 @@ export default {
   Profile: {
     path: '/profile',
     component: lazy(() => import('../pages/Profile'))
+  },
+  ParkingArea: {
+    path: '/parkingarea',
+    component: lazy(() => import('../pages/ParkingArea'))
   }
-  // ,
-  // ParkingArea: {
-  //   path: '/parkingarea',
-  //   component: lazy(() => import('../pages/ParkingArea'))
-  // }
 }
