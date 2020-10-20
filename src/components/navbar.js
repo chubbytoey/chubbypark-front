@@ -69,7 +69,7 @@ function Navbar () {
       <NavbarMenu>
         <ul>
           <li><Link to='/'>home</Link></li>
-          <li><Link to='/'>reservation</Link></li>
+          <li><Link to='/parkingarea'>reservation</Link></li>
           <li><Link to='/'>Promotion</Link></li>
           <li><Link to='/faq'>faq</Link></li>
         </ul>
