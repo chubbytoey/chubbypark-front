@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import Select from 'react-select'
 
 /* global fetch */
-async function getLocations () {
+
+// GET DATA FROM LOCATION TABLE
+async function fetchLocations () {
   const response = await fetch('http://localhost:3333/api/v1/reserve')
 
   return response.json()
 }
-async function getParkinglot (id) {
+
+// GET DATA FROM PARKINGLOT TABLE
+async function fetchParkinglot (id) {
   const parkingLotResponse = await fetch(
     `http://localhost:3333/api/v1/reserve/${id}`
   )
@@ -16,44 +20,53 @@ async function getParkinglot (id) {
   return parkingLotResponse.json()
 }
 
-function useLocation (id) {
+// GET DATA
+function useData (locationId) {
+  // SET STATE
   const [locations, setLocations] = useState([])
+  const [floors, setFloors] = useState([])
   const [isLoading, setLoading] = useState(false)
   const [error, setError] = useState(undefined)
 
-  const [parkingLots, setParkingLots] = useState([])
-
-  async function reteiveData () {
+  //  USE LOCATION DATA
+  async function getLocation () {
     try {
       setLoading(true)
-      const locationsResponse = await getLocations()
+      const locationsResponse = await fetchLocations()
       setLocations(locationsResponse.data)
     } catch (err) {
       setError(err)
     }
     setLoading(false)
   }
-
-  async function getLotData () {
+  // USE PARKINGLOT DATA
+  // RETREIVE FLOOR
+  async function getFloors () {
     try {
       setLoading(true)
-      const lotResponse = await getParkinglot(id)
-      setParkingLots(lotResponse.data)
+      const lotResponse = await fetchParkinglot(locationId)
+      setFloors([
+        ...new Set(lotResponse.data.map(lot => lot.lot_name.split('-')[0]))
+      ])
     } catch (err) {
       setError(err)
     }
     setLoading(false)
   }
-
+  // RETURN DATA
   return [
-    { locations, parkingLots, isLoading, error },
-    { reteiveData },
-    { getLotData }
+    { locations, floors, isLoading, error },
+    { getLocation, getFloors }
   ]
 }
 
-const SelectField = styled(Select)`
+// START STYLED
+const PlaceField = styled(Select)`
   width: 25vw;
+  font-size: 0.8rem;
+`
+const FloorField = styled(Select)`
+  width: 10vw;
   font-size: 0.8rem;
 `
 
@@ -75,39 +88,61 @@ const selectStyle = {
   })
 }
 
+// END STYLED
+
 function LocationField () {
-  const [
-    { locations, parkingLots, isLoading, error },
-    { reteiveData },
-    { getLotData }
-  ] = useLocation()
+  // SET STATE
+  const [state, setState] = useState(true)
 
-  const [selected, setSelected] = useState(0)
-
+  // GET LOCATION
+  const [selected, setSelected] = useState('')
   const handleLocation = e => {
     setSelected(e.value)
-    console.log(e.value)
+    setState(true)
   }
 
+  // USE DATA
+  const [
+    { locations, floors, isLoading, error },
+    { getLocation, getFloors }
+  ] = useData(selected)
+
+  // RESET SELECTED VALUE
+  const selectInputRef = useRef()
+  const onClear = () => {
+    selectInputRef.current.select.clearValue()
+  }
+
+  // USE EFFECT
   useEffect(() => {
-    reteiveData()
-    getLotData(selected)
-  }, [reteiveData])
+    if (state === true) {
+      getLocation()
+      if (selected) {
+        onClear()
+      }
+    }
+    if (selected) {
+      getFloors()
+      setState(false)
+    }
+  }, [getLocation, getFloors, selected, onClear])
 
-  // const floor = parkingLots.map(parkingLot => ({}))
-
-  const options = locations.map(location => ({
+  // SET OPTION
+  const placeOptions = locations.map(location => ({
     value: location.location_id,
     label: location.location_name
   }))
+  const floorOption = floors.map(floor => ({ value: floor, label: floor }))
 
+  // RETURN
   if (isLoading) {
     return (
       <>
         <FilterTitle>PLACE </FilterTitle>
-        <SelectField
+        <PlaceField
+          label='place'
           styles={selectStyle}
-          options={options}
+          options={placeOptions}
           theme={theme => ({
             ...theme,
             borderRadius: 10,
@@ -120,10 +155,42 @@ function LocationField () {
           })}
           onChange={handleLocation}
         />
+
         <FilterTitle>FLOOR </FilterTitle>
+        <FloorField
+          ref={selectInputRef}
+          label='floor'
+          styles={selectStyle}
+          options={floorOption}
+          theme={theme => ({
+            ...theme,
+            borderRadius: 10,
+            border: 'none',
+            colors: {
+              ...theme.colors,
+              primary25: '#FF69B4',
+              primary: '#000'
+            }
+          })}
+        />
       </>
     )
   }
   return <>{error}</>
+
+  // BELOW CODE IS NOT USED
+  // const [floors, setFloors] = useState('')
+
+  // const floorOption = floors
+  //   .split(',')
+  //   .map(floor => ({ value: floor, label: floor }))
+  // GET FLOOR
+  // const handleFloor = () => {
+  //   const arrFloor = [...parkingLots.map(lots => lots.lot_name)]
+  //     .join()
+  //     .split(',')
+  //   const distinctFloor = [...new Set(arrFloor.map(lot => lot.split('-')[0]))]
+  //   setFloors(distinctFloor.join())
+  // }
 }
 export default LocationField
