@@ -22,14 +22,14 @@ const ParkingMap = styled.div`
 `
 const ParkingFilter = styled.div`
   height: 6vh;
-  width: 70vw;
+  width: 75vw;
   display: flex;
   justify-content: space-between;
 `
 const MapFilter = styled.div`
   
 
-  width: 30vw;
+  width: 40vw;
   display:flex;
   align-items:center;
   
