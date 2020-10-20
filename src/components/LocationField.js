@@ -8,6 +8,7 @@ async function getLocations () {
 
   return response.json()
 }
+
 async function getParkinglot (id) {
   const parkingLotResponse = await fetch(
     `http://localhost:3333/api/v1/reserve/${id}`
