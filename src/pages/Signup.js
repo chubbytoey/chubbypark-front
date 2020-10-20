@@ -1,10 +1,22 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import styled from 'styled-components'
 import PasswordIcon from '../assets/password-icon.png'
 import UsernameIcon from '../assets/username-icon.png'
 import { Icon } from '../components/IconLayout'
+
+/* global fetch */
+async function RegisterAccount(event) {
+  const accountDataForm = new FormData(event.target)
+  console.log(accountDataForm)
+  const accountResponse = await fetch('http://localhost:3333/api/v1/reserve', {
+    method: 'post',
+    body: accountDataForm
+  })
+
+  return accountResponse.json()
+}
 
 const Content = styled.div`
   height: 85vh;
@@ -42,7 +54,7 @@ const SideText = styled.div`
   transform: rotate(180deg);
 `
 
-const SigninBlock = styled.div`
+const SigninBlock = styled.form`
   margin: 0 2rem;
   width: 28rem;
   height: 25rem;
@@ -72,6 +84,13 @@ const SigninInputBlock = styled.div`
   padding: 0.5rem 1rem;
   width: 17rem;
   display: flex;
+  flex: 1;
+`
+
+const SigninInputBlockSec = styled.div`
+  width: 19rem;
+  height: 3rem;
+  display: flex;
 `
 
 const SigninInput = styled.input`
@@ -84,6 +103,16 @@ const SigninInput = styled.input`
     color: #aaa;
   }
 `
+const SigninSelect = styled.select`
+  flex: 1;
+  border: #aaa solid 1px;
+  border-radius: 5px;
+  margin: 0.4rem 0;
+  margin-left: 0.3rem;
+  padding: 0.5rem 1rem;
+  display: flex;
+`
+const SigninOption = styled.option``
 
 const SigninButton = styled.button`
   border: none;
@@ -102,40 +131,50 @@ const SigninButton = styled.button`
   }
 `
 
-function Signup () {
+function Signup(event) {
+  useEffect(() => {}, [])
   return (
     <>
       <Navbar />
       <Content>
         <SignInWrapper>
-          <SideButton as='a'>
+          <SideButton as="a">
             <SideText>SIGN IN</SideText>
           </SideButton>
-          <SigninBlock>
+          <SigninBlock onSubmit={RegisterAccount}>
             <SigninBlockLayout>
               <SigninBlockTitle>sign up</SigninBlockTitle>
 
               <SigninInputBlock>
-                <SigninInput placeholder='username' />
+                <SigninInput placeholder="username" />
                 <Icon src={UsernameIcon} />
               </SigninInputBlock>
               <SigninInputBlock>
-                <SigninInput placeholder='password' />
+                <SigninInput placeholder="password" />
                 <Icon src={PasswordIcon} />
               </SigninInputBlock>
               <SigninInputBlock>
-                <SigninInput placeholder='first name' />
+                <SigninInput placeholder="first name" />
                 <Icon src={UsernameIcon} />
               </SigninInputBlock>
               <SigninInputBlock>
-                <SigninInput placeholder='last name' />
+                <SigninInput placeholder="last name" />
                 <Icon src={UsernameIcon} />
               </SigninInputBlock>
-              <SigninInputBlock>
-                <SigninInput type='number' placeholder='age' />
-              </SigninInputBlock>
+              {/* <SigninInputBlockSec>
+                <SigninInputBlock>
+                  <SigninInput type="number" placeholder="age" />
+                </SigninInputBlock>
+                <SigninSelect>
+                  <SigninOption>yeah</SigninOption>
+                  <SigninOption>yooo</SigninOption>
+                  <SigninOption>yaaa</SigninOption>
+                </SigninSelect>
+              </SigninInputBlockSec> */}
 
-              <SigninButton>SIGN UP</SigninButton>
+              <SigninButton type="submit" value="submit">
+                SIGN UP
+              </SigninButton>
             </SigninBlockLayout>
           </SigninBlock>
         </SignInWrapper>
