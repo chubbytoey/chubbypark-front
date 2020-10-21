@@ -51,7 +51,7 @@ const FooterCopyright = styled.div`
   align-items: flex-end;
   padding: 0.5rem;
   font-size: 0.8rem;
-  flex: 1;
+  flex: 2;
   opacity: 40%;
 `
 
