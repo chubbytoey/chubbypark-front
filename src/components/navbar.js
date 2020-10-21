@@ -9,7 +9,7 @@ const NavbarContainer = styled.div`
   color: #dd4a9e;
   display: flex;
   flex-direction: column;
-  height: 20vh;
+  height: 17vh;
   box-shadow: 2px 1px 7px #dbdbdb;
   position: relative;
   z-index: 1000;
@@ -21,27 +21,36 @@ const NavbarUserIcon = styled.div`
   width: 1.02rem;
   height: 0.91rem;
 `
-
+// const NavbarSignin = styled.div`
+//   flex: 2;
+//   display: flex;
+//   justify-content: flex-end;
+//   align-items: center;
+//   padding: 0 2rem;
+//   font-size: 0.7rem;
+//   font-weight: bold;
+//   text-transform: uppercase;
+// `
 const NavbarSignin = styled.div`
-  flex: 2;
+  position: absolute;
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  right:2vw;
   padding: 0 2rem;
   font-size: 0.7rem;
   font-weight: bold;
   text-transform: uppercase;
+  align-items: center;
 `
 const NavbarTitle = styled.div`
-  flex: 3;
+  flex: 1;
   display: flex;
-  align-items: center;
+  padding-top:5vh;
   justify-content: center;
   font-size: 1.8rem;
   font-weight: bold;
 `
 const NavbarMenu = styled.div`
-  flex: 2;
+  flex: 1;
   display: flex;
   align-items: baseline;
   justify-content: center;
@@ -58,20 +67,30 @@ const NavbarMenu = styled.div`
   }
 `
 
-function Navbar () {
+function Navbar() {
   return (
     <NavbarContainer>
-      <NavbarSignin>
-        <NavbarUserIcon src={userIcon} />
-        sign in
-      </NavbarSignin>
-      <NavbarTitle>CHUBBYPARK</NavbarTitle>
+      <NavbarTitle>
+        CHUBBYPARK
+        <NavbarSignin>
+          <NavbarUserIcon src={userIcon} />
+          sign in
+        </NavbarSignin>
+      </NavbarTitle>
       <NavbarMenu>
         <ul>
-          <li><Link to='/'>home</Link></li>
-          <li><Link to='/parkingarea'>reservation</Link></li>
-          <li><Link to='/'>Promotion</Link></li>
-          <li><Link to='/faq'>faq</Link></li>
+          <li>
+            <Link to="/">home</Link>
+          </li>
+          <li>
+            <Link to="/parkingarea">reservation</Link>
+          </li>
+          <li>
+            <Link to="/">Promotion</Link>
+          </li>
+          <li>
+            <Link to="/faq">faq</Link>
+          </li>
         </ul>
       </NavbarMenu>
     </NavbarContainer>
