@@ -11,8 +11,9 @@ const FooterContainer = styled.div`
   height: 30vh;
   width: 100vw;
   justify-content: space-between;
+ box-shadow: 2px -2px 7px rgba(84,84,84,.15);
+  position: relative;
   
-
 `
 const FooterContent = styled.div`
   display: flex;
