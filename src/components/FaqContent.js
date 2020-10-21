@@ -4,8 +4,10 @@ import styled from 'styled-components'
 const FaqContainer = styled.div`
   width: 100%;
   height: 80vh;
-  background-color: #000;
+  background-color: #fff;
   overflow: scroll;
+  
+  
 `
 const FaqWrapper = styled.div`
   display: flex;
@@ -23,21 +25,21 @@ const Question = styled.span`
   justify-content: flex-start;
   align-items: center;
   color: #d147a3;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   padding: 0 2rem;
 
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: font-size 0.5s;
 
   &:hover {
-    background-color: rgba(209, 71, 163, 0.9);
-    color: #fff;
+    /* text-decoration:underline; */
+    font-size: 0.97rem;
   }
 `
 const AnswerSide = styled.div`
   flex: 2;
-  background-color: #000;
+  background-color: #d147a3;
   color: #fff;
   display: flex;
   height: 80vh;
@@ -105,8 +107,9 @@ function FaqContent () {
         ''
       )
     )
-    document.getElementById(id).style.background = 'rgba(209, 71, 163, 0.9)'
+    document.getElementById(id).style.background = '#d147a3'
     document.getElementById(id).style.color = '#fff'
+    // document.getElementById(id).style.transition = 'background-color .8s '
   }
 
   return (
