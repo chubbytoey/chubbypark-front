@@ -2,35 +2,46 @@ import React from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import styled from 'styled-components'
-import BeEasy from '../assets/be-easy.jpg'
+import HeadPicture from '../assets/headPhoto.jpg'
+import GoodPoint1Pic from '../assets/goodpoint1.jpg'
+import GoodPoint2Pic from '../assets/goodpoint2.jpg'
+import GoodPoint3Pic from '../assets/goodpoint3.jpg'
 
 const FirstContent = styled.div`
-  height: 70vh;
+  height: 78vh;
+  background-image: url(${props => props.src});
+  background-size: cover;
+  background-position: center;
   background-color: #fff;
-  display: flex;
-`
-const FirstContentPicture = styled.div`
-  background-color: #dd4a9e;
-  flex: 2;
-`
-const FirstContentFind = styled.div`
-  flex: 3;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 `
+const BackgroundOverlay = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 78%;
+  /* background-image: linear-gradient(to right,#dd4a9e , #2F9DC6); */
+  background-color: rgba(203, 74, 148, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
 const FirstContentTitle = styled.h1`
   text-transform: uppercase;
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
+  color: #fff;
 `
 
 const FirstContentSearch = styled.select`
   outline: none;
   border: none;
   border: #aaa 1px solid;
-  width: 45vw;
+  width: 40vw;
   padding: 1rem;
   margin: 1.5rem;
 `
@@ -40,24 +51,23 @@ const FirstContentSearchList = styled.option``
 const FirstContentButton = styled.button`
   border: none;
   outline: none;
-  width: 45vw;
+  width: 40vw;
   padding: 1rem;
   text-transform: uppercase;
   font-size: 1rem;
   background-color: #dd4a9e;
   color: #fff;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
-  box-shadow: 1px 1px 10px 1px #aaa;
   transition: 0.3s;
 
   &:hover {
-    box-shadow: 1px 1px 20px 5px #aaa;
+    background-color:#C9C9C9;
   }
 `
 const SecondContent = styled.div`
   height: 170vh;
-  background-color: #000;
+  background-color: #fff;
   display: flex;
   flex-direction: column;
 `
@@ -72,8 +82,8 @@ const SecondContentBlockPicture = styled.div`
   align-items: center;
 `
 const SecondContentPicture = styled.div`
-  /* background-image:url(${props => props.src}); */
-  /* background-size:cover; */
+  background-image: url(${props => props.src});
+  background-size: cover;
   width: 30vw;
   height: 35vh;
 
@@ -89,44 +99,45 @@ const SecondContentOption = styled.div`
   align-items: center;
 `
 const SecondContentTitle = styled.h1`
-  color: #fff;
+  color: #dd4a9e;
   text-transform: uppercase;
   font-weight: bold;
   font-size: 1.8rem;
   padding-bottom: 1rem;
-  border-bottom: #fff 1px solid;
+  border-bottom: #000 1px solid;
   width: 23vw;
 `
 const SecondContentDetail = styled.div`
   width: 23vw;
-  color: #fff;
+  color: #000;
   padding-top: 1rem;
 `
 
-function Home() {
+function Home () {
   return (
     <>
       <Navbar />
-      <FirstContent>
-        <FirstContentPicture />
-        <FirstContentFind>
-          <FirstContentTitle>choose a place you want now!!</FirstContentTitle>
-
+      <FirstContent src={HeadPicture}>
+        <BackgroundOverlay>
+          <FirstContentTitle>choose your destination</FirstContentTitle>
           <FirstContentSearch>
-            <FirstContentSearchList>1</FirstContentSearchList>
-            <FirstContentSearchList>2</FirstContentSearchList>
-            <FirstContentSearchList>3</FirstContentSearchList>
-            <FirstContentSearchList>4</FirstContentSearchList>
+            <FirstContentSearchList>
+              CentralPlaza Chiangmai Airport
+            </FirstContentSearchList>
+            <FirstContentSearchList>
+              Central Festival Chiangmai
+            </FirstContentSearchList>
+            <FirstContentSearchList>MAYA</FirstContentSearchList>
           </FirstContentSearch>
 
           <FirstContentButton>next</FirstContentButton>
-        </FirstContentFind>
+        </BackgroundOverlay>
       </FirstContent>
 
       <SecondContent>
         <SecondContentBlock>
           <SecondContentBlockPicture>
-            <SecondContentPicture src={BeEasy} />
+            <SecondContentPicture src={GoodPoint1Pic} />
           </SecondContentBlockPicture>
 
           <SecondContentOption>
@@ -145,13 +156,13 @@ function Home() {
             </SecondContentDetail>
           </SecondContentOption>
           <SecondContentBlockPicture>
-            <SecondContentPicture src={BeEasy} />
+            <SecondContentPicture src={GoodPoint2Pic} />
           </SecondContentBlockPicture>
         </SecondContentBlock>
 
         <SecondContentBlock>
           <SecondContentBlockPicture>
-            <SecondContentPicture src={BeEasy} />
+            <SecondContentPicture src={GoodPoint3Pic} />
           </SecondContentBlockPicture>
           <SecondContentOption>
             <SecondContentTitle>reserve from everywhere</SecondContentTitle>
