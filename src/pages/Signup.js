@@ -7,16 +7,6 @@ import UsernameIcon from '../assets/username-icon.png'
 import { Icon } from '../components/IconLayout'
 
 /* global fetch */
-async function RegisterAccount(event) {
-  const accountDataForm = new FormData(event.target)
-  console.log(accountDataForm)
-  const accountResponse = await fetch('http://localhost:3333/api/v1/reserve', {
-    method: 'post',
-    body: accountDataForm
-  })
-
-  return accountResponse.json()
-}
 
 const Content = styled.div`
   height: 85vh;
@@ -54,7 +44,7 @@ const SideText = styled.div`
   transform: rotate(180deg);
 `
 
-const SigninBlock = styled.form`
+const SigninBlock = styled.div`
   margin: 0 2rem;
   width: 28rem;
   height: 25rem;
@@ -62,7 +52,7 @@ const SigninBlock = styled.form`
   box-shadow: 2px 1px 20px #dbdbdb;
   background-color: #fff;
 `
-const SigninBlockLayout = styled.div`
+const SigninBlockLayout = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -132,7 +122,59 @@ const SigninButton = styled.button`
 `
 
 function Signup(event) {
-  useEffect(() => {}, [])
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [firstname, setFirstname] = useState('')
+  const [lastname, setLastname] = useState('')
+  const [age, setAge] = useState('')
+  const [gender, setGender] = useState('')
+
+  async function RegisterAccount(event) {
+    event.preventDefault()
+    const accountDataform = {
+      username: username,
+      password: password,
+      status: 'customer',
+      first_name: firstname,
+      last_name: lastname,
+      age: age,
+      gender: gender
+    }
+    const accountResponse = await fetch(
+      'http://127.0.0.1:3333/api/v1/registers',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(accountDataform)
+      }
+    )
+    const result = await accountResponse.json()
+    console.log(accountDataform)
+    console.log(result)
+  }
+  const handleUsernameChange = event => {
+    setUsername(event.target.value)
+  }
+  const handlePasswordChange = event => {
+    setPassword(event.target.value)
+  }
+  const handleFirstnameChange = event => {
+    setFirstname(event.target.value)
+  }
+  const handleLastnameChange = event => {
+    setLastname(event.target.value)
+  }
+  const handleAgeChange = event => {
+    setAge(event.target.value)
+  }
+  const handleGenderChange = event => {
+    const value = document.getElementById('selectValue')
+    setGender(value.value)
+  }
+  // useEffect(() => {}, [RegisterAccount])
   return (
     <>
       <Navbar />
@@ -141,40 +183,66 @@ function Signup(event) {
           <SideButton as="a">
             <SideText>SIGN IN</SideText>
           </SideButton>
-          <SigninBlock onSubmit={RegisterAccount}>
-            <SigninBlockLayout>
+          <SigninBlock>
+            <SigninBlockLayout onSubmit={RegisterAccount}>
               <SigninBlockTitle>sign up</SigninBlockTitle>
 
               <SigninInputBlock>
-                <SigninInput placeholder="username" />
+                <SigninInput
+                  type="text"
+                  value={username}
+                  onChange={handleUsernameChange}
+                  placeholder="username"
+                />
                 <Icon src={UsernameIcon} />
               </SigninInputBlock>
               <SigninInputBlock>
-                <SigninInput placeholder="password" />
+                <SigninInput
+                  type="password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  placeholder="password"
+                />
                 <Icon src={PasswordIcon} />
               </SigninInputBlock>
               <SigninInputBlock>
-                <SigninInput placeholder="first name" />
+                <SigninInput
+                  type="text"
+                  value={firstname}
+                  onChange={handleFirstnameChange}
+                  placeholder="first name"
+                />
                 <Icon src={UsernameIcon} />
               </SigninInputBlock>
               <SigninInputBlock>
-                <SigninInput placeholder="last name" />
+                <SigninInput
+                  type="text"
+                  value={lastname}
+                  onChange={handleLastnameChange}
+                  placeholder="last name"
+                />
                 <Icon src={UsernameIcon} />
               </SigninInputBlock>
-              {/* <SigninInputBlockSec>
+              <SigninInputBlockSec>
                 <SigninInputBlock>
-                  <SigninInput type="number" placeholder="age" />
+                  <SigninInput
+                    value={age}
+                    onChange={handleAgeChange}
+                    type="number"
+                    placeholder="age"
+                  />
                 </SigninInputBlock>
-                <SigninSelect>
-                  <SigninOption>yeah</SigninOption>
-                  <SigninOption>yooo</SigninOption>
-                  <SigninOption>yaaa</SigninOption>
+                <SigninSelect id="selectValue" onChange={handleGenderChange}>
+                  <SigninOption selected disabled hidden>
+                    Choose here
+                  </SigninOption>
+                  <SigninOption value="male">male</SigninOption>
+                  <SigninOption value="female">female</SigninOption>
+                  <SigninOption value="lgbt">lgbt</SigninOption>
                 </SigninSelect>
-              </SigninInputBlockSec> */}
+              </SigninInputBlockSec>
 
-              <SigninButton type="submit" value="submit">
-                SIGN UP
-              </SigninButton>
+              <SigninButton type="submit">SIGN UP</SigninButton>
             </SigninBlockLayout>
           </SigninBlock>
         </SignInWrapper>
