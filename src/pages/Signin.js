@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import styled from 'styled-components'
+import { useHistory,Redirect } from 'react-router-dom'
 import PasswordIcon from '../assets/password-icon.png'
 import UsernameIcon from '../assets/username-icon.png'
 import { Icon } from '../components/IconLayout'
+
+/* global fetch */
 
 const Content = styled.div`
   height: 67vh;
@@ -51,7 +54,7 @@ const SigninBlock = styled.div`
   background-color: #fff;
 `
 
-const SigninBlockLayout = styled.div`
+const SigninBlockLayout = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -116,26 +119,77 @@ const SigninButton = styled.button`
   }
 `
 
-function Signin () {
+function Signin() {
+  const tokenTest = window.localStorage.getItem('storeToken')
+  tokenTest !== null ? Redirect('/') : console.log('not login') // forChecklogin
+
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  async function SigninAccount(event) {
+    event.preventDefault()
+    const accountDataform = {
+      username: username,
+      password: password
+    }
+    setPassword('')
+    setUsername('')
+    const accountResponse = await fetch('http://127.0.0.1:3333/api/v1/logins', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(accountDataform)
+    })
+    const result = await accountResponse.json()
+    console.log(result)
+    // if (result.error !== undefined) {
+    if (typeof result.error !== 'undefined') {
+      alert(result.error)
+    } else {
+      window.localStorage.setItem(
+        'storeToken',
+        JSON.stringify(result.data.token)
+      )
+      window.location.assign('/')
+      // window.open('/')
+    }
+  }
+
+  const handleUsernameChange = event => {
+    setUsername(event.target.value)
+  }
+  const handlePasswordChange = event => {
+    setPassword(event.target.value)
+  }
   return (
     <>
       <Navbar />
       <Content>
-
         <SignInWrapper>
-          <SideButton as='a'>
+          <SideButton as="a">
             <SideText>SIGN UP</SideText>
           </SideButton>
           <SigninBlock>
-            <SigninBlockLayout>
+            <SigninBlockLayout onSubmit={SigninAccount}>
               <SigninBlockTitle>sign in</SigninBlockTitle>
 
               <SigninInputBlock>
-                <SigninInput placeholder='username' />
+                <SigninInput
+                  value={username}
+                  onChange={handleUsernameChange}
+                  placeholder="username"
+                />
                 <Icon src={UsernameIcon} />
               </SigninInputBlock>
               <SigninInputBlock>
-                <SigninInput type='password' placeholder='password' />
+                <SigninInput
+                  value={password}
+                  onChange={handlePasswordChange}
+                  type="password"
+                  placeholder="password"
+                />
                 <Icon src={PasswordIcon} />
               </SigninInputBlock>
 
