@@ -67,7 +67,7 @@ const NavbarMenu = styled.div`
   }
 `
 
-function Navbar() {
+function Navbar () {
   return (
     <NavbarContainer>
       <NavbarTitle>
@@ -76,20 +76,20 @@ function Navbar() {
           <NavbarUserIcon src={userIcon} />
           sign in
         </NavbarSignin>
-      </NavbarTitle>
+      </NavbarTitle>s
       <NavbarMenu>
         <ul>
           <li>
-            <Link to="/">home</Link>
+            <Link to='/'>home</Link>
           </li>
           <li>
-            <Link to="/parkingarea">reservation</Link>
+            <Link to='/parkingarea'>reservation</Link>
           </li>
           <li>
-            <Link to="/">Promotion</Link>
+            <Link to='/'>Promotion</Link>
           </li>
           <li>
-            <Link to="/faq">faq</Link>
+            <Link to='/faq'>faq</Link>
           </li>
         </ul>
       </NavbarMenu>
