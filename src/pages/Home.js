@@ -32,9 +32,15 @@ const BackgroundOverlay = styled.div`
 
 const FirstContentTitle = styled.h1`
   text-transform: uppercase;
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: bold;
   color: #fff;
+`
+const FirstContentSubTitle = styled.h3`
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: normal;
+  padding-top: 0.2rem;
 `
 
 const FirstContentSearch = styled.select`
@@ -62,7 +68,8 @@ const FirstContentButton = styled.button`
   transition: 0.3s;
 
   &:hover {
-    background-color:#C9C9C9;
+    background-color: #c9c9c9;
+    color: #6c6c6c;
   }
 `
 const SecondContent = styled.div`
@@ -113,13 +120,22 @@ const SecondContentDetail = styled.div`
   padding-top: 1rem;
 `
 
-function Home () {
+function Home() {
+  const tokenTest = window.localStorage.getItem('storeToken')
+  tokenTest !== null ? console.log('login') : console.log('not login') // forChecklogin
+  
+  function Logout() {
+    window.localStorage.removeItem('storeToken')
+    window.location.reload()
+  } // mockup
+
   return (
     <>
       <Navbar />
       <FirstContent src={HeadPicture}>
         <BackgroundOverlay>
-          <FirstContentTitle>choose your destination</FirstContentTitle>
+          <FirstContentTitle>rent a parking</FirstContentTitle>
+          <FirstContentSubTitle>choose your destination</FirstContentSubTitle>
           <FirstContentSearch>
             <FirstContentSearchList>
               CentralPlaza Chiangmai Airport
@@ -130,7 +146,7 @@ function Home () {
             <FirstContentSearchList>MAYA</FirstContentSearchList>
           </FirstContentSearch>
 
-          <FirstContentButton>next</FirstContentButton>
+          <FirstContentButton onClick={Logout}>next</FirstContentButton>
         </BackgroundOverlay>
       </FirstContent>
 
