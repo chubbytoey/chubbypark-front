@@ -88,11 +88,14 @@ const NavbarMenu = styled.div`
 
 function Navbar({ name }) {
   const tokenTest = window.localStorage.getItem('storeToken')
-  const username = window.localStorage.getItem('username').slice(1, -1)
+  const [username,setUsername] = useState('')
+  // const username = window.localStorage.getItem('username').slice(1, -1)
+  // const username = ''
 
-  function flipped() {
+  function checkLogin() {
     if (tokenTest !== null) {
       document.getElementById('notlogin').style.display = 'none'
+      setUsername(window.localStorage.getItem('username').slice(1,-1))
     } else {
       document.getElementById('login').style.display = 'none'
       document.getElementById('button').style.display = 'none'
@@ -100,7 +103,7 @@ function Navbar({ name }) {
   }
 
   useEffect(() => {
-    flipped()
+    checkLogin()
   }, [])
   return (
     <NavbarContainer>
