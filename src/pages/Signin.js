@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import styled from 'styled-components'
-import { useHistory,Redirect } from 'react-router-dom'
+import { useHistory, Redirect } from 'react-router-dom'
 import PasswordIcon from '../assets/password-icon.png'
 import UsernameIcon from '../assets/username-icon.png'
 import { Icon } from '../components/IconLayout'
@@ -121,7 +121,9 @@ const SigninButton = styled.button`
 
 function Signin() {
   const tokenTest = window.localStorage.getItem('storeToken')
-  tokenTest !== null ? Redirect('/') : console.log('not login') // forChecklogin
+  function checkLogin() {
+    tokenTest !== null ? window.location.assign('/') : console.log('not login')
+  }
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -152,6 +154,7 @@ function Signin() {
         'storeToken',
         JSON.stringify(result.data.token)
       )
+      window.localStorage.setItem('username',result.username)
       window.location.assign('/')
       // window.open('/')
     }
@@ -163,6 +166,10 @@ function Signin() {
   const handlePasswordChange = event => {
     setPassword(event.target.value)
   }
+
+  useEffect(() => { 
+    checkLogin()
+  },[window.localStorage.getItem('storeToken')])
   return (
     <>
       <Navbar />
