@@ -120,11 +120,11 @@ const SecondContentDetail = styled.div`
   padding-top: 1rem;
 `
 
-function Home() {
+function Home () {
   const tokenTest = window.localStorage.getItem('storeToken')
   tokenTest !== null ? console.log('login') : console.log('not login') // forChecklogin
 
-  function Logout() {
+  function Logout () {
     window.localStorage.removeItem('storeToken')
     window.location.reload()
   } // mockup
@@ -178,7 +178,7 @@ function Home() {
 
         <SecondContentBlock>
           <SecondContentBlockPicture>
-            <SecondContentPicture src={GoodPoint1Pic} />
+            {/* <SecondContentPicture src={GoodPoint3Pic} /> */}
           </SecondContentBlockPicture>
           <SecondContentOption>
             <SecondContentTitle>reserve from everywhere</SecondContentTitle>
