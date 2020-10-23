@@ -25,5 +25,9 @@ export default {
   ParkingArea: {
     path: '/parkingarea',
     component: lazy(() => import('../pages/ParkingArea'))
+  },
+  Promotion: {
+    path: '/promotion',
+    component: lazy(() => import('../pages/Promotion'))
   }
 }
