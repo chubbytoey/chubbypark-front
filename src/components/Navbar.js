@@ -93,12 +93,12 @@ const NavbarMenu = styled.div`
   }
 `
 
-const NavText = styled.div`
+const NavText = styled.a`
   display: flex;
   align-items: center;
 `
 
-function Navbar ({ name }) {
+function Navbar () {
   const tokenTest = window.localStorage.getItem('storeToken')
   const [username, setUsername] = useState('')
   // const username = window.localStorage.getItem('username').slice(1, -1)
@@ -107,7 +107,7 @@ function Navbar ({ name }) {
   function checkLogin () {
     if (tokenTest !== null) {
       document.getElementById('notlogin').style.display = 'none'
-      setUsername(window.localStorage.getItem('username').slice(1, -1))
+      setUsername(window.localStorage.getItem('username'))
     } else {
       document.getElementById('button').style.display = 'none'
       document.getElementById('login').style.display = 'none'
@@ -116,7 +116,7 @@ function Navbar ({ name }) {
 
   function Logout () {
     window.localStorage.removeItem('storeToken')
-    window.location.reload()
+    window.location.assign('/')
   } // mockup
 
   useEffect(() => {
@@ -127,7 +127,7 @@ function Navbar ({ name }) {
       <NavbarTitle>
         CHUBBYPARK
         <NavbarSignin id='notlogin'>
-          <NavText>
+          <NavText href='/signin'>
             <NavbarUserIcon src={userIcon} />
             sign in
           </NavText>
@@ -152,7 +152,7 @@ function Navbar ({ name }) {
             <Link to='/parkingarea'>reservation</Link>
           </li>
           <li>
-            <Link to='/'>Promotion</Link>
+            <Link to='/promotion'>Promotion</Link>
           </li>
           <li>
             <Link to='/faq'>faq</Link>

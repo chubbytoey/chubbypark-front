@@ -4,6 +4,7 @@ import Footer from '../components/Footer'
 import styled from 'styled-components'
 import PasswordIcon from '../assets/password-icon.png'
 import UsernameIcon from '../assets/username-icon.png'
+import Select from 'react-select'
 import { Icon } from '../components/IconLayout'
 
 /* global fetch */
@@ -93,17 +94,17 @@ const SigninInput = styled.input`
     color: #aaa;
   }
 `
-const SigninSelect = styled.select`
-  flex: 1;
-  border: #aaa solid 1px;
-  border-radius: 5px;
-  margin: 0.4rem 0;
-  margin-left: 0.3rem;
-  padding: 0.5rem 1rem;
-  display: flex;
+const SigninSelect = styled(Select)`
+  /* border: #aaa solid 1px;
+  border-radius: 5px; */
+  /* display: flex; */
+  /* margin: 0.4rem 0; */
+  /* margin-left: 0.3rem; */
+  padding-top: 0.4rem;
+  padding-left: 0.5rem;
+  width: 40rem;
+  font-size: 0.7rem;
 `
-const SigninOption = styled.option``
-
 const SigninButton = styled.button`
   border: none;
   outline: none;
@@ -120,6 +121,32 @@ const SigninButton = styled.button`
     background-color: #e04fa2;
   }
 `
+
+const option = [
+  {
+    value: 'male',
+    label: 'male'
+  },
+  {
+    value: 'female',
+    label: 'female'
+  },
+  {
+    value: 'lgbt',
+    label: 'lgbt'
+  }
+]
+
+const customStyles = {
+  control: (styles, { isFocused }) => ({
+    ...styles,
+    flex: 1,
+    boxShadow: 0,
+    height: 40,
+    border: '1px solid #aaa',
+    minHeight: 43.5
+  })
+}
 
 function Signup(event) {
   function CheckLogin() {
@@ -161,8 +188,14 @@ function Signup(event) {
       }
     )
     const result = await accountResponse.json()
-    console.log(accountDataform)
-    console.log(result)
+    console.log(result.error)
+    if (!result.error) {
+      alert('hey')
+      // window.location.assign('/signin')
+      // window.open('/')
+    } else {
+      alert(result.error.map(index => index.message))
+    }
   }
   const handleUsernameChange = event => {
     setUsername(event.target.value)
@@ -179,17 +212,31 @@ function Signup(event) {
   const handleAgeChange = event => {
     setAge(event.target.value)
   }
-  const handleGenderChange = event => {
-    const value = document.getElementById('selectValue')
+  const handleGenderChange = value => {
+    // const value = document.getElementById('selectValue')
     setGender(value.value)
   }
   // useEffect(() => {}, [RegisterAccount])
+
+  function GoSignIn() {
+    window.location.assign('/signin')
+  }
+
+  const tokenTest = window.localStorage.getItem('storeToken')
+  function checkLogin() {
+    tokenTest !== null ? window.location.assign('/') : console.log('not login')
+  }
+
+  useEffect(() => {
+    checkLogin()
+  }, [window.localStorage.getItem('storeToken')])
+
   return (
     <>
       <Navbar />
       <Content>
         <SignInWrapper>
-          <SideButton as="a">
+          <SideButton as="a" onClick={GoSignIn}>
             <SideText>SIGN IN</SideText>
           </SideButton>
           <SigninBlock>
@@ -200,6 +247,7 @@ function Signup(event) {
                 <SigninInput
                   type="text"
                   value={username}
+                  required
                   onChange={handleUsernameChange}
                   placeholder="username"
                 />
@@ -208,6 +256,7 @@ function Signup(event) {
               <SigninInputBlock>
                 <SigninInput
                   type="password"
+                  required
                   value={password}
                   onChange={handlePasswordChange}
                   placeholder="password"
@@ -217,6 +266,7 @@ function Signup(event) {
               <SigninInputBlock>
                 <SigninInput
                   type="text"
+                  required
                   value={firstname}
                   onChange={handleFirstnameChange}
                   placeholder="first name"
@@ -226,6 +276,7 @@ function Signup(event) {
               <SigninInputBlock>
                 <SigninInput
                   type="text"
+                  required
                   value={lastname}
                   onChange={handleLastnameChange}
                   placeholder="last name"
@@ -236,19 +287,41 @@ function Signup(event) {
                 <SigninInputBlock>
                   <SigninInput
                     value={age}
+                    required
                     onChange={handleAgeChange}
                     type="number"
                     placeholder="age"
                   />
                 </SigninInputBlock>
-                <SigninSelect id="selectValue" onChange={handleGenderChange}>
-                  <SigninOption selected disabled hidden>
+                {/* <SigninSelect
+                  required
+                  id="selectValue"
+                  onChange={handleGenderChange}>
+                  <SigninOption value="" selected disabled hidden>
                     Choose here
                   </SigninOption>
                   <SigninOption value="male">male</SigninOption>
                   <SigninOption value="female">female</SigninOption>
                   <SigninOption value="lgbt">lgbt</SigninOption>
-                </SigninSelect>
+                </SigninSelect> */}
+                <SigninSelect
+                  id="selectValue"
+                  onChange={handleGenderChange}
+                  label="gender"
+                  options={option}
+                  styles={customStyles}
+                  theme={theme => ({
+                    ...theme,
+                    borderRadius: 5,
+                    border: 'none',
+                    colors: {
+                      ...theme.colors,
+                      primary25: '#FF69B4',
+                      primary: '#000'
+                    }
+                  })}
+                  required
+                />
               </SigninInputBlockSec>
 
               <SigninButton type="submit">SIGN UP</SigninButton>
