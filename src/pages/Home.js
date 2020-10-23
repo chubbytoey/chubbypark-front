@@ -91,8 +91,8 @@ const SecondContentBlockPicture = styled.div`
 const SecondContentPicture = styled.div`
   background-image: url(${props => props.src});
   background-size: cover;
-  width: 30vw;
-  height: 40vh;
+  width: 43vw;
+  height: 43vh;
 
   /* for dev */
   background-color: #dd4a9e;
@@ -124,11 +124,6 @@ function Home () {
   const tokenTest = window.localStorage.getItem('storeToken')
   tokenTest !== null ? console.log('login') : console.log('not login') // forChecklogin
 
-  function Logout () {
-    window.localStorage.removeItem('storeToken')
-    window.location.reload()
-  } // mockup
-
   return (
     <>
       <Navbar />
@@ -146,7 +141,7 @@ function Home () {
             <FirstContentSearchList>MAYA</FirstContentSearchList>
           </FirstContentSearch>
 
-          <FirstContentButton onClick={Logout}>next</FirstContentButton>
+          <FirstContentButton>next</FirstContentButton>
         </BackgroundOverlay>
       </FirstContent>
 
