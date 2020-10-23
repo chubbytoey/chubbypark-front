@@ -86,7 +86,7 @@ const NavbarMenu = styled.div`
   }
 `
 
-function Navbar({ name }) {
+function Navbar() {
   const tokenTest = window.localStorage.getItem('storeToken')
   const [username,setUsername] = useState('')
   // const username = window.localStorage.getItem('username').slice(1, -1)
