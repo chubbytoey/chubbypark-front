@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState ,useEffect} from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import userIcon from '../assets/user-icon.png'
@@ -34,7 +34,7 @@ const NavbarUserIcon = styled.div`
 const NavbarSignin = styled.div`
   position: absolute;
   display: flex;
-  right:2vw;
+  right: 2vw;
   padding: 0 2rem;
   font-size: 0.7rem;
   font-weight: bold;
@@ -44,7 +44,7 @@ const NavbarSignin = styled.div`
 const NavbarTitle = styled.div`
   flex: 1;
   display: flex;
-  padding-top:5vh;
+  padding-top: 5vh;
   justify-content: center;
   font-size: 1.8rem;
   font-weight: bold;
@@ -67,29 +67,47 @@ const NavbarMenu = styled.div`
   }
 `
 
-function Navbar () {
+function Navbar() {
+  const tokenTest = window.localStorage.getItem('storeToken')
+  tokenTest !== null ? console.log('login') : console.log('not login') // forChecklogin
+
+  function flipped() {
+    if (tokenTest !== null) {
+      document.getElementById('notlogin').style.display = 'none'
+    } else {
+      document.getElementById('login').style.display = 'none'
+    }
+  }
+
+  useEffect(() => {
+    flipped()
+  },[])
   return (
     <NavbarContainer>
       <NavbarTitle>
         CHUBBYPARK
-        <NavbarSignin>
+        <NavbarSignin id="notlogin" >
           <NavbarUserIcon src={userIcon} />
           sign in
         </NavbarSignin>
-      </NavbarTitle>s
+        <NavbarSignin id="login">
+          <NavbarUserIcon  src={userIcon} />
+          chubbytoey
+        </NavbarSignin>
+      </NavbarTitle>
       <NavbarMenu>
         <ul>
           <li>
-            <Link to='/'>home</Link>
+            <Link to="/">home</Link>
           </li>
           <li>
-            <Link to='/parkingarea'>reservation</Link>
+            <Link to="/parkingarea">reservation</Link>
           </li>
           <li>
-            <Link to='/'>Promotion</Link>
+            <Link to="/">Promotion</Link>
           </li>
           <li>
-            <Link to='/faq'>faq</Link>
+            <Link to="/faq">faq</Link>
           </li>
         </ul>
       </NavbarMenu>
