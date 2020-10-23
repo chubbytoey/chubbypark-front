@@ -9,7 +9,7 @@ async function fetchCustomer (id) {
 
 function useCustomer (customerId) {
   // SET STATE
-  const [customer, setCustomer] = useState([])
+  const [customer, setCustomer] = useState({})
   const [isLoading, setLoading] = useState(false)
   const [error, setError] = useState(undefined)
 
@@ -18,7 +18,7 @@ function useCustomer (customerId) {
     try {
       setLoading(true)
       const customerResponse = await fetchCustomer(customerId)
-      setCustomer([...new Set(customerResponse.data.map(index => index))])
+      setCustomer(...customerResponse.data)
     } catch (err) {
       setError(err)
     }
@@ -40,10 +40,12 @@ function Promotion () {
     getCustomer()
   }, [getCustomer])
 
+  console.log(Array.isArray(customer))
+
   if (isLoading) {
     return (
       <>
-        <Text>{customer.map(data => data.first_name)}</Text>
+        <Text>{customer.first_name}</Text>
       </>
     )
   }
