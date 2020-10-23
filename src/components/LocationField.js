@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Select from 'react-select'
-import { useFilter } from '../utils/usePlace'
+import { useFilter } from '../utils/useFilter'
 
 // START STYLED
 const PlaceField = styled(Select)`
