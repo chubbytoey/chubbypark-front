@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Select from 'react-select'
-import { useData } from '../utils/locationUtil'
+import { useFilter } from '../utils/usePlace'
 
 // START STYLED
 const PlaceField = styled(Select)`
@@ -34,68 +34,10 @@ const selectStyle = {
 // END STYLED
 
 function LocationField () {
-  // SET STATE
-  const [state, setState] = useState(true)
-  const [isFloor, setIsFloor] = useState(false)
-
-  // GET LOCATION
-  const [selected, setSelected] = useState('')
-  const handleLocation = e => {
-    setSelected(e.value)
-    setState(true)
-  }
-  // GET FLOOR
-  const [floorInput, setFloorInput] = useState('')
-
-  const handleFloor = e => {
-    try {
-      setFloorInput(e.value)
-      setIsFloor(true)
-    } catch (error) {
-      setIsFloor(false)
-    }
-  }
-
-  // USE DATA
   const [
-    { locations, floors, lots, isLoading, error },
-    { getLocation, getFloors, getLots }
-  ] = useData([selected, floorInput])
-
-  // RESET SELECTED VALUE
-  const selectInputRef = useRef()
-  const onClear = () => {
-    selectInputRef.current.select.clearValue()
-  }
-
-  // USE EFFECT
-  useEffect(() => {
-    if (state === true) {
-      getLocation()
-      if (selected) {
-        onClear()
-      }
-    }
-    if (selected) {
-      getFloors()
-      setState(false)
-    }
-
-    if (isFloor === true) {
-      if (floorInput) {
-        getLots()
-        console.log(lots)
-        setIsFloor(false)
-      }
-    }
-  }, [getLocation, getFloors, getLots, lots, selected, floorInput, onClear, setIsFloor, isFloor, floors])
-
-  // SET OPTION
-  const placeOptions = locations.map(location => ({
-    value: location.location_id,
-    label: location.location_name
-  }))
-  const floorOption = floors.map(floor => ({ value: floor, label: floor }))
+    { placeOptions, floorOption, isLoading, error, selectInputRef },
+    { handleLocation, handleFloor }
+  ] = useFilter()
 
   // RETURN
   if (isLoading) {
