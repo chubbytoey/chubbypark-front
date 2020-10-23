@@ -36,6 +36,7 @@ const selectStyle = {
 function LocationField () {
   // SET STATE
   const [state, setState] = useState(true)
+  const [isFloor, setIsFloor] = useState(false)
 
   // GET LOCATION
   const [selected, setSelected] = useState('')
@@ -47,8 +48,11 @@ function LocationField () {
   const [floorInput, setFloorInput] = useState('')
 
   const handleFloor = e => {
-    if (state === false) {
+    try {
       setFloorInput(e.value)
+      setIsFloor(true)
+    } catch (error) {
+      setIsFloor(false)
     }
   }
 
@@ -75,11 +79,16 @@ function LocationField () {
     if (selected) {
       getFloors()
       setState(false)
+    }
+
+    if (isFloor === true) {
       if (floorInput) {
         getLots()
+        console.log(lots)
+        setIsFloor(false)
       }
     }
-  }, [getLocation, getFloors, getLots, lots, selected, floorInput, onClear])
+  }, [getLocation, getFloors, getLots, lots, selected, floorInput, onClear, setIsFloor, isFloor, floors])
 
   // SET OPTION
   const placeOptions = locations.map(location => ({
