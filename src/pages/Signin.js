@@ -166,6 +166,9 @@ function Signin() {
   const handlePasswordChange = event => {
     setPassword(event.target.value)
   }
+  function GoSignUp() {
+    window.location.assign('/signup')
+  }
 
   useEffect(() => { 
     checkLogin()
@@ -175,7 +178,7 @@ function Signin() {
       <Navbar />
       <Content>
         <SignInWrapper>
-          <SideButton as="a">
+          <SideButton as="a" onClick={GoSignUp}>
             <SideText>SIGN UP</SideText>
           </SideButton>
           <SigninBlock>
@@ -185,6 +188,7 @@ function Signin() {
               <SigninInputBlock>
                 <SigninInput
                   value={username}
+                  required
                   onChange={handleUsernameChange}
                   placeholder="username"
                 />
@@ -193,6 +197,7 @@ function Signin() {
               <SigninInputBlock>
                 <SigninInput
                   value={password}
+                  required
                   onChange={handlePasswordChange}
                   type="password"
                   placeholder="password"
