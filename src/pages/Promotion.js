@@ -35,14 +35,11 @@ const Text = styled.div`
 
 function Promotion () {
   const [{ customer, isLoading, error }, { getCustomer }] = useCustomer(17)
-
   useEffect(() => {
     getCustomer()
-  }, [getCustomer])
+  }, [])
 
-  console.log(Array.isArray(customer))
-
-  if (isLoading) {
+  if (!isLoading) {
     return (
       <>
         <Text>{customer.first_name}</Text>
