@@ -23,14 +23,33 @@ const NavbarUserIcon = styled.div`
 `
 const UserBlock = styled.div`
   margin-top: 0.2rem;
-  width: 4rem;
-  height: 2.5rem;
+  width: 5rem;
+  border-radius:0 0 10px 10px;
   right: 4.8%;
   transition: 0.5s;
   display: flex;
+  justify-content:center;
   flex-direction: column;
   display: none;
+  background-color: #dd4a9e;
+  padding-right:.2rem;
+  padding-left:.2rem;
 `
+const UserBlockBtn = styled.a`
+  border: none;
+  outline: none;
+  background-color:none;
+  border-bottom:${props => props.border};
+  padding: 0.3rem 1rem;
+  color:#fff ;
+  width: 50%;
+  display: flex;
+  flex: 1;
+  cursor: pointer;
+  font-weight:lighter;
+  font-size:.5rem;
+`
+
 const NavbarSignin = styled.div`
   position: absolute;
   display: flex;
@@ -54,18 +73,6 @@ const NavbarTitle = styled.div`
   justify-content: center;
   font-size: 1.8rem;
   font-weight: bold;
-`
-const UserBlockBtn = styled.button`
-  border: none;
-  outline: none;
-  background-color: #fff;
-  padding: 0.2rem 0.5rem;
-  outline: 1px solid #aaa;
-  color: #dd4a9e;
-  width: 100%;
-  display: flex;
-  flex: 1;
-  cursor: pointer;
 `
 
 const NavbarMenu = styled.div`
@@ -107,6 +114,11 @@ function Navbar ({ name }) {
     }
   }
 
+  function Logout () {
+    window.localStorage.removeItem('storeToken')
+    window.location.reload()
+  } // mockup
+
   useEffect(() => {
     checkLogin()
   }, [])
@@ -126,8 +138,8 @@ function Navbar ({ name }) {
             {username}
           </NavText>
           <UserBlock id='button'>
-            <UserBlockBtn>Profile</UserBlockBtn>
-            <UserBlockBtn>logout</UserBlockBtn>
+            <UserBlockBtn href='/profile' border='1px solid #fff'>Profile</UserBlockBtn>
+            <UserBlockBtn onClick={Logout} >logout</UserBlockBtn>
           </UserBlock>
         </NavbarSignin>
       </NavbarTitle>
