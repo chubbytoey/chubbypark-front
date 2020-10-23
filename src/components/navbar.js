@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import userIcon from '../assets/user-icon.png'
@@ -21,34 +21,53 @@ const NavbarUserIcon = styled.div`
   width: 1.02rem;
   height: 0.91rem;
 `
-// const NavbarSignin = styled.div`
-//   flex: 2;
-//   display: flex;
-//   justify-content: flex-end;
-//   align-items: center;
-//   padding: 0 2rem;
-//   font-size: 0.7rem;
-//   font-weight: bold;
-//   text-transform: uppercase;
-// `
 const NavbarSignin = styled.div`
   position: absolute;
   display: flex;
-  right:2vw;
-  padding: 0 2rem;
+  right: 2vw;
+  padding: .1rem 2rem;
   font-size: 0.7rem;
   font-weight: bold;
   text-transform: uppercase;
+  cursor: pointer;
   align-items: center;
 `
 const NavbarTitle = styled.div`
   flex: 1;
   display: flex;
-  padding-top:5vh;
+  padding-top: 5vh;
   justify-content: center;
   font-size: 1.8rem;
   font-weight: bold;
 `
+const UserBlockBtn = styled.button`
+  border: none;
+  outline: none;
+  background-color: #fff;
+  padding:0.2rem .5rem;
+  outline: 1px solid #aaa;
+  color: #dd4a9e;
+  width: 100%;
+  display: flex;
+  flex: 1;
+  cursor: pointer;
+`
+const UserBlock = styled.div`
+  width: 4rem;
+  height: 2.5rem;
+  position: absolute;
+  bottom: 20%;
+  right: 4.8%;
+  transition: 0.5s;
+  display: flex;
+  flex-direction: column;
+  display: none;
+
+  ${NavbarSignin}:hover ~ & {
+    display: flex;
+  }
+`
+
 const NavbarMenu = styled.div`
   flex: 1;
   display: flex;
@@ -67,29 +86,52 @@ const NavbarMenu = styled.div`
   }
 `
 
-function Navbar () {
+function Navbar({ name }) {
+  const tokenTest = window.localStorage.getItem('storeToken')
+  const username = window.localStorage.getItem('username').slice(1, -1)
+
+  function flipped() {
+    if (tokenTest !== null) {
+      document.getElementById('notlogin').style.display = 'none'
+    } else {
+      document.getElementById('login').style.display = 'none'
+      document.getElementById('button').style.display = 'none'
+    }
+  }
+
+  useEffect(() => {
+    flipped()
+  }, [])
   return (
     <NavbarContainer>
       <NavbarTitle>
         CHUBBYPARK
-        <NavbarSignin>
+        <NavbarSignin id="notlogin">
           <NavbarUserIcon src={userIcon} />
           sign in
         </NavbarSignin>
-      </NavbarTitle>s
+        <NavbarSignin id="login">
+          <NavbarUserIcon src={userIcon} />
+          {username}
+        </NavbarSignin>
+        <UserBlock id="button">
+          <UserBlockBtn>Profile</UserBlockBtn>
+          <UserBlockBtn>logout</UserBlockBtn>
+        </UserBlock>
+      </NavbarTitle>
       <NavbarMenu>
         <ul>
           <li>
-            <Link to='/'>home</Link>
+            <Link to="/">home</Link>
           </li>
           <li>
-            <Link to='/parkingarea'>reservation</Link>
+            <Link to="/parkingarea">reservation</Link>
           </li>
           <li>
-            <Link to='/'>Promotion</Link>
+            <Link to="/">Promotion</Link>
           </li>
           <li>
-            <Link to='/faq'>faq</Link>
+            <Link to="/faq">faq</Link>
           </li>
         </ul>
       </NavbarMenu>
