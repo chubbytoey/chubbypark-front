@@ -122,6 +122,15 @@ const SigninButton = styled.button`
 `
 
 function Signup(event) {
+  function CheckLogin() {
+    const tokenTest = window.localStorage.getItem('storeToken')
+    if (tokenTest !== null) {
+      window.location.assign('/')
+    } else {
+      console.log('not login')
+    }
+  }
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [firstname, setFirstname] = useState('')
