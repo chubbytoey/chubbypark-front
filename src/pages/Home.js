@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import HeadPicture from '../assets/headPhoto.jpg'
 import GoodPoint1Pic from '../assets/goodpoint1.jpg'
 import GoodPoint2Pic from '../assets/goodpoint2.jpg'
-import GoodPoint3Pic from '../assets/goodpoint3.jpg'
+// import GoodPoint3Pic from '../assets/goodpoint3.jpg'
 
 const FirstContent = styled.div`
   height: 78vh;
@@ -92,7 +92,7 @@ const SecondContentPicture = styled.div`
   background-image: url(${props => props.src});
   background-size: cover;
   width: 30vw;
-  height: 35vh;
+  height: 40vh;
 
   /* for dev */
   background-color: #dd4a9e;
@@ -123,7 +123,7 @@ const SecondContentDetail = styled.div`
 function Home() {
   const tokenTest = window.localStorage.getItem('storeToken')
   tokenTest !== null ? console.log('login') : console.log('not login') // forChecklogin
-  
+
   function Logout() {
     window.localStorage.removeItem('storeToken')
     window.location.reload()
@@ -178,7 +178,7 @@ function Home() {
 
         <SecondContentBlock>
           <SecondContentBlockPicture>
-            <SecondContentPicture src={GoodPoint3Pic} />
+            <SecondContentPicture src={GoodPoint1Pic} />
           </SecondContentBlockPicture>
           <SecondContentOption>
             <SecondContentTitle>reserve from everywhere</SecondContentTitle>
