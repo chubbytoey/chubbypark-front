@@ -1,4 +1,6 @@
 import { useState } from 'react'
+// import ActionContext from '../'
+
 /* global fetch */
 async function fetchLocations () {
   const response = await fetch('http://localhost:3333/api/v1/reserve')
