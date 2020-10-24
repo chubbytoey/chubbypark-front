@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import Select from 'react-select'
-import { useFilter } from '../utils/useFilter'
+import ActionContext from '../contexts/ActionContext'
 
 // START STYLED
 const PlaceField = styled(Select)`
@@ -34,10 +34,18 @@ const selectStyle = {
 // END STYLED
 
 function LocationField () {
-  const [
-    { placeOptions, floorOption, isLoading, error, selectInputRef },
-    { handleLocation, handleFloor }
-  ] = useFilter()
+  const {
+    placeOptions,
+    floorOption,
+    selected,
+    isLoading,
+    error,
+    selectInputRef,
+    handleLocation,
+    handleFloor
+  } = useContext(ActionContext)
+
+  const placeIndex = selected ? placeOptions.findIndex(index => index.value === selected) : ''
 
   // RETURN
   if (isLoading) {
@@ -46,6 +54,7 @@ function LocationField () {
         <FilterTitle>PLACE </FilterTitle>
         <PlaceField
           label='place'
+          defaultValue={placeOptions[placeIndex]}
           styles={selectStyle}
           options={placeOptions}
           theme={theme => ({
