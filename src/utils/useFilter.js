@@ -37,7 +37,7 @@ export function useFilter () {
   useEffect(() => {
     if (status === true) {
       getLocation()
-      if (selected) {
+      if (floorInput) {
         onClear()
       }
     }
