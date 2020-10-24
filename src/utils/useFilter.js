@@ -76,7 +76,7 @@ export function useFilter () {
   const floorOption = floors.map(floor => ({ value: floor, label: floor }))
 
   return [
-    { placeOptions, floorOption, isLoading, error, selectInputRef },
+    { placeOptions, floorOption, selected, isLoading, error, selectInputRef },
     { handleLocation, handleFloor }
   ]
 }
