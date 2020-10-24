@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import styled from 'styled-components'
 import HeadPicture from '../assets/headPhoto.jpg'
 import GoodPoint1Pic from '../assets/goodpoint1.jpg'
 import GoodPoint2Pic from '../assets/goodpoint2.jpg'
-import { useFilter } from '../utils/useFilter'
 import Select from 'react-select'
+import ActionContext from '../contexts/ActionContext'
 // import GoodPoint3Pic from '../assets/goodpoint3.jpg'
-
+import { Link } from 'react-router-dom'
 const FirstContent = styled.div`
   height: 78vh;
   background-image: url(${props => props.src});
@@ -44,17 +44,6 @@ const FirstContentSubTitle = styled.h3`
   font-weight: normal;
   padding-top: 0.2rem;
 `
-
-const FirstContentSearch = styled.select`
-  outline: none;
-  border: none;
-  border: #aaa 1px solid;
-  width: 40vw;
-  padding: 1rem;
-  margin: 1.5rem;
-`
-
-const FirstContentSearchList = styled.option``
 
 const FirstContentButton = styled.button`
   border: none;
@@ -124,7 +113,7 @@ const SecondContentDetail = styled.div`
 
 const PlaceField = styled(Select)`
   width: 40vw;
-  margin : 1rem;
+  margin: 1rem;
   font-size: 1rem;
 `
 
@@ -147,10 +136,9 @@ function Home () {
   const tokenTest = window.localStorage.getItem('storeToken')
   tokenTest !== null ? console.log('login') : console.log('not login') // forChecklogin
 
-  const [
-    { placeOptions },
-    { handleLocation }
-  ] = useFilter()
+  // const [{ placeOptions, selected }, { handleLocation }] = useFilter()
+  // console.log(selected)
+  const { placeOptions, handleLocation } = useContext(ActionContext)
 
   return (
     <>
@@ -159,6 +147,7 @@ function Home () {
         <BackgroundOverlay>
           <FirstContentTitle>rent a parking</FirstContentTitle>
           <FirstContentSubTitle>choose your destination</FirstContentSubTitle>
+
           <PlaceField
             label='place'
             styles={selectStyle}
@@ -175,7 +164,10 @@ function Home () {
             })}
             onChange={handleLocation}
           />
-          <FirstContentButton>next</FirstContentButton>
+
+          <FirstContentButton>
+            <Link to='/parkingarea'>next</Link>
+          </FirstContentButton>
         </BackgroundOverlay>
       </FirstContent>
 
