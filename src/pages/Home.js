@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import HeadPicture from '../assets/headPhoto.jpg'
 import GoodPoint1Pic from '../assets/goodpoint1.jpg'
 import GoodPoint2Pic from '../assets/goodpoint2.jpg'
+import { useFilter } from '../utils/useFilter'
+import Select from 'react-select'
 // import GoodPoint3Pic from '../assets/goodpoint3.jpg'
 
 const FirstContent = styled.div`
@@ -120,9 +122,35 @@ const SecondContentDetail = styled.div`
   padding-top: 1rem;
 `
 
+const PlaceField = styled(Select)`
+  width: 40vw;
+  margin : 1rem;
+  font-size: 1rem;
+`
+
+const selectStyle = {
+  control: (styles, { isFocused }) => ({
+    ...styles,
+    border: 0,
+    height: 70,
+    boxShadow: 0,
+    paddingLeft: 30
+  }),
+  menuList: base => ({
+    ...base,
+    marginTop: 5,
+    marginBottom: 5
+  })
+}
+
 function Home () {
   const tokenTest = window.localStorage.getItem('storeToken')
   tokenTest !== null ? console.log('login') : console.log('not login') // forChecklogin
+
+  const [
+    { placeOptions },
+    { handleLocation }
+  ] = useFilter()
 
   return (
     <>
@@ -131,16 +159,22 @@ function Home () {
         <BackgroundOverlay>
           <FirstContentTitle>rent a parking</FirstContentTitle>
           <FirstContentSubTitle>choose your destination</FirstContentSubTitle>
-          <FirstContentSearch>
-            <FirstContentSearchList>
-              CentralPlaza Chiangmai Airport
-            </FirstContentSearchList>
-            <FirstContentSearchList>
-              Central Festival Chiangmai
-            </FirstContentSearchList>
-            <FirstContentSearchList>MAYA</FirstContentSearchList>
-          </FirstContentSearch>
-
+          <PlaceField
+            label='place'
+            styles={selectStyle}
+            options={placeOptions}
+            theme={theme => ({
+              ...theme,
+              borderRadius: 10,
+              border: 'none',
+              colors: {
+                ...theme.colors,
+                primary25: '#FF69B4',
+                primary: '#000'
+              }
+            })}
+            onChange={handleLocation}
+          />
           <FirstContentButton>next</FirstContentButton>
         </BackgroundOverlay>
       </FirstContent>
