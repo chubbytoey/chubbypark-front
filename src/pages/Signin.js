@@ -2,13 +2,22 @@ import React, { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import styled from 'styled-components'
-import { useHistory, Redirect } from 'react-router-dom'
 import PasswordIcon from '../assets/password-icon.png'
 import UsernameIcon from '../assets/username-icon.png'
 import { Icon } from '../components/IconLayout'
 
 /* global fetch */
-
+async function FetchResponse(accountDataform) {
+  const accountResponse = await fetch('http://127.0.0.1:3333/api/v1/logins', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(accountDataform)
+  })
+  return accountResponse.json()
+}
 const Content = styled.div`
   height: 67vh;
   display: flex;
@@ -136,15 +145,7 @@ function Signin() {
     }
     setPassword('')
     setUsername('')
-    const accountResponse = await fetch('http://127.0.0.1:3333/api/v1/logins', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(accountDataform)
-    })
-    const result = await accountResponse.json()
+    const result = await FetchResponse(accountDataform)
     console.log(result)
     // if (result.error !== undefined) {
     if (typeof result.error !== 'undefined') {
@@ -152,7 +153,7 @@ function Signin() {
     } else {
       window.localStorage.setItem(
         'storeToken',
-        JSON.stringify(result.data.token)
+        JSON.stringify(result.access.token)
       )
       window.localStorage.setItem('username',result.username)
       window.location.assign('/')
