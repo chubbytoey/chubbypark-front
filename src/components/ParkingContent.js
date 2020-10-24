@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import LocationField from './LocationField'
+import LotMap from './LotMap'
+
 const ParkingContainer = styled.div`
   width: 100%;
   height: 80vh;
@@ -19,6 +21,9 @@ const ParkingMap = styled.div`
   border-radius: 1rem;
   width: 80vw;
   height: 60vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 `
 const ParkingFilter = styled.div`
   height: 6vh;
@@ -54,7 +59,9 @@ function ParkingContent () {
           </MapFilter>
           <MapStatus />
         </ParkingFilter>
-        <ParkingMap />
+        <ParkingMap>
+          <LotMap />
+        </ParkingMap>
       </ParkingWrapper>
     </ParkingContainer>
   )
