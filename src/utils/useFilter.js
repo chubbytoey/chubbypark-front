@@ -49,7 +49,6 @@ export function useFilter () {
     if (isFloor === true) {
       if (floorInput) {
         getLots()
-        console.log(lots)
         setIsFloor(false)
       }
     }
@@ -76,7 +75,7 @@ export function useFilter () {
   const floorOption = floors.map(floor => ({ value: floor, label: floor }))
 
   return [
-    { placeOptions, floorOption, selected, isLoading, error, selectInputRef },
+    { placeOptions, floorOption, selected, lots, isLoading, error, selectInputRef },
     { handleLocation, handleFloor }
   ]
 }
