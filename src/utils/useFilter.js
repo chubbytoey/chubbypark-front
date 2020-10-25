@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import { useData } from '../utils/useLocation'
 
 export function useFilter () {
-  const [status, setStatus] = useState(true)
   const [isFloor, setIsFloor] = useState(false)
   const [selected, setSelected] = useState('')
   const [floorInput, setFloorInput] = useState('')
@@ -10,7 +9,6 @@ export function useFilter () {
   // GET LOCATION
   const handleLocation = e => {
     setSelected(e.value)
-    setStatus(true)
   }
   // GET FLOOR
   const handleFloor = e => {
@@ -35,37 +33,18 @@ export function useFilter () {
 
   // USE EFFECT
   useEffect(() => {
-    if (status === true) {
-      getLocation()
-      if (floorInput) {
-        onClear()
-      }
-    }
+    getLocation()
     if (selected) {
+      onClear()
       getFloors()
-      setStatus(false)
     }
+  }, [selected])
 
+  useEffect(() => {
     if (isFloor === true) {
-      if (floorInput) {
-        getLots()
-        setIsFloor(false)
-      }
+      getLots()
     }
-  }, [
-    getLocation,
-    getFloors,
-    getLots,
-    onClear,
-    lots,
-    selected,
-    floors,
-    floorInput,
-    isFloor,
-    status,
-    setIsFloor,
-    setStatus
-  ])
+  }, [isFloor])
 
   // SET OPTION
   const placeOptions = locations.map(location => ({
@@ -75,7 +54,15 @@ export function useFilter () {
   const floorOption = floors.map(floor => ({ value: floor, label: floor }))
 
   return [
-    { placeOptions, floorOption, selected, lots, isLoading, error, selectInputRef },
+    {
+      placeOptions,
+      floorOption,
+      selected,
+      lots,
+      isLoading,
+      error,
+      selectInputRef
+    },
     { handleLocation, handleFloor }
   ]
 }
