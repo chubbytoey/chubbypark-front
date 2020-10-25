@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import styled from 'styled-components'
@@ -12,10 +12,12 @@ import {
   ContentContainer
 } from '../components/MenuLayout'
 
-async function FetchResponse(accountDataform) {
+async function fetchResponse(accountDataform) {
+  const token = JSON.parse(window.localStorage.getItem('storeToken'))
   const accountResponse = await fetch('http://127.0.0.1:3333/api/v1/coins', {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${token}`,
       Accept: 'application/json',
       'Content-Type': 'application/json'
     },
@@ -23,16 +25,17 @@ async function FetchResponse(accountDataform) {
   })
   return accountResponse.json()
 }
-// const Content = styled.div`
-//   height: 90vh;
-//   display: flex;
-// `
-// const MenuContainer = styled.div`
-//   flex: 1;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-// `
+
+async function fetchCustomer() {
+  const token = JSON.parse(window.localStorage.getItem('storeToken'))
+  const response = await fetch('http://127.0.0.1:3333/api/v1/customers/user', {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  return response.json()
+}
+
 const PictureProfileBlock = styled.div`
   background-color: pink;
   width: 50%;
@@ -41,45 +44,6 @@ const PictureProfileBlock = styled.div`
   margin-top: 3rem;
   margin-bottom: 1rem;
 `
-
-// const Btn = styled.button`
-//   outline: none;
-//   border: none;
-//   background-color: ${props => props.bgColor};
-//   color: ${props => props.color};
-//   border: 1px solid ${props => props.color};
-//   border-radius: 10px;
-//   padding: 0.5rem 1rem;
-//   width: ${props => props.width};
-//   text-transform: uppercase;
-//   cursor: pointer;
-// `
-// const MenuNavContainer = styled.div`
-//   width: 100%;
-//   display: flex;
-//   flex-direction: column;
-//   margin-top: 15%;
-// `
-
-// const Menu = styled.a`
-//   color: #aaa;
-//   padding: 1.5rem 4rem;
-//   border: none;
-//   transition: 0.3s;
-// `
-// const ProfileContainer = styled.div`
-//   flex: 2;
-//   display: flex;
-//   background-color: #f8f8f8;
-//   align-items: center;
-//   flex-direction: column;
-//   height: 100%;
-//   overflow: auto;
-//   scroll-behavior:smooth;
-//   /* for fit-content */
-//   /* align-items: flex-start; */
-//   /* padding-top:3rem; */
-// `
 const ProfileContainerInside = styled.div`
   background-color: #fff;
   width: 85%;
@@ -99,7 +63,6 @@ const ProfileTitle = styled.h1`
 const ProfileDetailContainer = styled.form`
   padding: 1.5rem 8rem;
 `
-
 const ProfileDetailText = styled.h4`
   flex: 1;
   padding-bottom: 0.4rem;
@@ -108,7 +71,6 @@ const ProfileDetailText = styled.h4`
   display: flex;
   align-items: center;
 `
-
 const InputProfileDetail = styled.input`
   outline: none;
   border: none;
@@ -146,14 +108,36 @@ const Icon = styled.div`
   padding-right: 0.5rem;
 `
 const TextBlock = styled.div`
-  /* border:1px solid red; */
   display: flex;
   align-items: center;
   padding-bottom: 1rem;
 `
-function Profile() {
-  const [amount,setAmount] = useState('')
 
+function useCustomer() {
+  const [customer, setCustomer] = useState({})
+  const [isLoading, setLoading] = useState(false)
+  const [error, setError] = useState(undefined)
+
+  async function getCustomer() {
+    try {
+      setLoading(true)
+      const customerResponse = await fetchCustomer()
+      setCustomer(...customerResponse.data)
+    } catch {
+      setError('e')
+    }
+    setLoading(false)
+  }
+
+  return [{ customer, isLoading, error }, { getCustomer }]
+}
+
+function Profile() {
+  // const [amount, setAmount] = useState('')
+
+  const [{ customer, isLoading, error }, { getCustomer }] = useCustomer() // for store userData
+
+  console.log(customer)
   function handleMenu(StayMenu, anotherMenu, height) {
     document.getElementById(StayMenu).style.color = '#000'
     document.getElementById(StayMenu).style.borderLeft = '5px solid #dd4a9e'
@@ -161,26 +145,13 @@ function Profile() {
     document.getElementById(anotherMenu).style.backgroundColor = '#fff'
     document.getElementById(anotherMenu).style.color = '#aaa'
     document.getElementById(anotherMenu).style.border = 'none'
-    // const element = document.getElementById('profileBlock')
-    // console.log(element)
-    // const element2 = document.getElementById('coinBlock')
-    // element.scrollTop = element2.offsetTop
-    // element.scrollTop = 10
     const element = document.getElementById('container')
     element.scrollTop = height
   }
 
-  // function handleCoin() {
-  //   event.preventDefault()
-  //   const accountDataform = {
-  //     user_rate: amount
-  //   }
-  //   setAmount('')
-  //   const result = await FetchResponse(accountDataform)
-  // }
   useEffect(() => {
     handleMenu('profileMenu', 'coinMenu', 'profileBlock', 'coinBlock')
-    // handleMenu('coinMenu', 'profileMenu', 'coinBlock', 'profileBlock')
+    getCustomer()
   }, [])
 
   return (
@@ -194,13 +165,11 @@ function Profile() {
           </Btn>
           <MenuNavContainer>
             <Menu
-              // href="#profileBlock"
               id="profileMenu"
               onClick={() => handleMenu('profileMenu', 'coinMenu', 0)}>
               Profile
             </Menu>
             <Menu
-              // href="#coinBlock"
               id="coinMenu"
               onClick={() => handleMenu('coinMenu', 'profileMenu', 700)}>
               Add Coin
@@ -212,9 +181,9 @@ function Profile() {
             <ProfileTitle>profile</ProfileTitle>
             <ProfileDetailContainer>
               <ProfileDetailText>first name</ProfileDetailText>
-              <InputProfileDetail placeholder="first name" />
+              <InputProfileDetail placeholder={customer.first_name} />
               <ProfileDetailText>last name</ProfileDetailText>
-              <InputProfileDetail placeholder="last name" />
+              <InputProfileDetail placeholder={customer.last_name} />
               <ProfileDetailText>Birth Date</ProfileDetailText>
               <InputProfileDetail type="date" />
               <ProfileDetailText>gender</ProfileDetailText>
@@ -238,7 +207,7 @@ function Profile() {
                 <Icon>
                   <MoneyDollarCircle size="1.5rem" />
                 </Icon>
-                999999
+                {customer.coin}
               </TextBlock>
               <InputProfileDetail placeholder="insert the coin" />
             </ProfileDetailContainer>
