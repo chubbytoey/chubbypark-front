@@ -136,7 +136,16 @@ function Home () {
   const tokenTest = window.localStorage.getItem('storeToken')
   tokenTest !== null ? console.log('login') : console.log('not login') // forChecklogin
 
-  const { placeOptions, handleLocation } = useContext(ActionContext)
+  const {
+    placeOptions,
+    floorOption,
+    selected,
+    isLoading,
+    error,
+    selectInputRef,
+    handleLocation,
+    handleFloor
+  } = useContext(ActionContext)
 
   return (
     <>
