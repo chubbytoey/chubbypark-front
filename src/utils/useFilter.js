@@ -35,10 +35,12 @@ export function useFilter () {
   useEffect(() => {
     getLocation()
     if (selected) {
-      onClear()
+      if (isFloor === true) {
+        onClear()
+      }
       getFloors()
     }
-  }, [selected])
+  }, [selected, isFloor])
 
   useEffect(() => {
     if (isFloor === true) {

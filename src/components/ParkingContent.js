@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import LocationField from './LocationField'
-// import LotMap from './LotMap'
+import LotMap from './LotMap'
 
 const ParkingContainer = styled.div`
   width: 100%;
@@ -61,7 +61,7 @@ function ParkingContent () {
           <MapStatus />
         </ParkingFilter>
         <ParkingMap>
-          {/* <LotMap /> */}
+          <LotMap />
         </ParkingMap>
       </ParkingWrapper>
     </ParkingContainer>
