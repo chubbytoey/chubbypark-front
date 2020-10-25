@@ -48,7 +48,7 @@ function LocationField () {
   const placeIndex = selected ? placeOptions.findIndex(index => index.value === selected) : ''
 
   // RETURN
-  if (isLoading) {
+  if (!isLoading) {
     return (
       <>
         <FilterTitle>PLACE </FilterTitle>
