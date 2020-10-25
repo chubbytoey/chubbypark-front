@@ -21,7 +21,6 @@ const SignInWrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
 `
-
 const SideButton = styled.div`
   width: 2rem;
   height: 12vh;
@@ -44,7 +43,6 @@ const SideText = styled.div`
   font-size: 0.7rem;
   transform: rotate(180deg);
 `
-
 const SigninBlock = styled.div`
   margin: 0 2rem;
   width: 28rem;
@@ -60,14 +58,12 @@ const SigninBlockLayout = styled.form`
   align-items: center;
   padding: 0.5rem;
 `
-
 const SigninBlockTitle = styled.h1`
   font-weight: bold;
   padding: 1rem 0;
   font-size: 2rem;
   text-transform: uppercase;
 `
-
 const SigninInputBlock = styled.div`
   border: #aaa solid 1px;
   border-radius: 5px;
@@ -77,13 +73,11 @@ const SigninInputBlock = styled.div`
   display: flex;
   flex: 1;
 `
-
 const SigninInputBlockSec = styled.div`
   width: 19rem;
   height: 3rem;
   display: flex;
 `
-
 const SigninInput = styled.input`
   outline: none;
   border: none;
@@ -121,7 +115,6 @@ const SigninButton = styled.button`
     background-color: #e04fa2;
   }
 `
-
 const option = [
   {
     value: 'male',
@@ -154,7 +147,7 @@ function Signup(event) {
     if (tokenTest !== null) {
       window.location.assign('/')
     } else {
-      console.log('not login')
+      alert('not login')
     }
   }
 
@@ -162,7 +155,7 @@ function Signup(event) {
   const [password, setPassword] = useState('')
   const [firstname, setFirstname] = useState('')
   const [lastname, setLastname] = useState('')
-  const [age, setAge] = useState('')
+  const [birthDate, setBirthDate] = useState('')
   const [gender, setGender] = useState('')
 
   async function RegisterAccount(event) {
@@ -173,7 +166,7 @@ function Signup(event) {
       status: 'customer',
       first_name: firstname,
       last_name: lastname,
-      age: age,
+      birth_date: birthDate,
       gender: gender
     }
     const accountResponse = await fetch(
@@ -190,8 +183,8 @@ function Signup(event) {
     const result = await accountResponse.json()
     console.log(result.error)
     if (!result.error) {
-      alert('hey')
-      // window.location.assign('/signin')
+      // alert('hey')
+      window.location.assign('/signin')
       // window.open('/')
     } else {
       alert(result.error.map(index => index.message))
@@ -210,7 +203,7 @@ function Signup(event) {
     setLastname(event.target.value)
   }
   const handleAgeChange = event => {
-    setAge(event.target.value)
+    setBirthDate(event.target.value)
   }
   const handleGenderChange = value => {
     // const value = document.getElementById('selectValue')
@@ -286,11 +279,10 @@ function Signup(event) {
               <SigninInputBlockSec>
                 <SigninInputBlock>
                   <SigninInput
-                    value={age}
+                    value={birthDate}
                     required
                     onChange={handleAgeChange}
-                    type="number"
-                    placeholder="age"
+                    type="date"
                   />
                 </SigninInputBlock>
                 {/* <SigninSelect

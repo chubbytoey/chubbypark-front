@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import styled from 'styled-components'
@@ -11,8 +11,9 @@ import {
   Menu,
   ContentContainer
 } from '../components/MenuLayout'
+import ActionContext from '../contexts/ActionContext'
 
-async function fetchResponse(accountDataform) {
+async function fetchCoin(amount) {
   const token = JSON.parse(window.localStorage.getItem('storeToken'))
   const accountResponse = await fetch('http://127.0.0.1:3333/api/v1/coins', {
     method: 'POST',
@@ -21,11 +22,10 @@ async function fetchResponse(accountDataform) {
       Accept: 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(accountDataform)
+    body: JSON.stringify(amount)
   })
   return accountResponse.json()
 }
-
 async function fetchCustomer() {
   const token = JSON.parse(window.localStorage.getItem('storeToken'))
   const response = await fetch('http://127.0.0.1:3333/api/v1/customers/user', {
@@ -35,16 +35,15 @@ async function fetchCustomer() {
   })
   return response.json()
 }
-
 const PictureProfileBlock = styled.div`
   background-color: pink;
-  width: 50%;
+  width: 47%;
   height: 30%;
   border-radius: 50%;
   margin-top: 3rem;
   margin-bottom: 1rem;
 `
-const ProfileContainerInside = styled.div`
+const ProfileContainerInside = styled.form`
   background-color: #fff;
   width: 85%;
   border-radius: 10px;
@@ -60,7 +59,7 @@ const ProfileTitle = styled.h1`
   padding: 4rem 4em;
   padding-bottom: 0;
 `
-const ProfileDetailContainer = styled.form`
+const ProfileDetailContainer = styled.div`
   padding: 1.5rem 8rem;
 `
 const ProfileDetailText = styled.h4`
@@ -113,31 +112,24 @@ const TextBlock = styled.div`
   padding-bottom: 1rem;
 `
 
-function useCustomer() {
-  const [customer, setCustomer] = useState({})
-  const [isLoading, setLoading] = useState(false)
-  const [error, setError] = useState(undefined)
-
-  async function getCustomer() {
-    try {
-      setLoading(true)
-      const customerResponse = await fetchCustomer()
-      setCustomer(...customerResponse.data)
-    } catch {
-      setError('e')
-    }
-    setLoading(false)
-  }
-
-  return [{ customer, isLoading, error }, { getCustomer }]
-}
 
 function Profile() {
-  // const [amount, setAmount] = useState('')
+  console.log('run')
+  const [amount, setAmount] = useState('')
+  const [isUpdate , setIsUpdate] = useState(false)
+  const { customer, getCustomer } = useContext(ActionContext)
 
-  const [{ customer, isLoading, error }, { getCustomer }] = useCustomer() // for store userData
+  async function updateCoin(event) {
+    setIsUpdate(true)
+    event.preventDefault()
+    const updateAmount = {
+      amount: parseInt(amount)
+    }
+    const result = await fetchCoin(updateAmount)
+    setAmount('')
+    setIsUpdate(false)
+  }
 
-  console.log(customer)
   function handleMenu(StayMenu, anotherMenu, height) {
     document.getElementById(StayMenu).style.color = '#000'
     document.getElementById(StayMenu).style.borderLeft = '5px solid #dd4a9e'
@@ -149,10 +141,15 @@ function Profile() {
     element.scrollTop = height
   }
 
+  const handleCoin = event => {
+    setAmount(event.target.value)
+  }
+
   useEffect(() => {
+    if(isUpdate) 
     handleMenu('profileMenu', 'coinMenu', 'profileBlock', 'coinBlock')
     getCustomer()
-  }, [])
+  }, [amount, setAmount, fetchCoin])
 
   return (
     <>
@@ -200,7 +197,7 @@ function Profile() {
             </BtnContainer>
           </ProfileContainerInside>
 
-          <ProfileContainerInside id="coinBlock">
+          <ProfileContainerInside onSubmit={updateCoin} id="coinBlock">
             <ProfileTitle>coin</ProfileTitle>
             <ProfileDetailContainer>
               <TextBlock>
@@ -209,10 +206,14 @@ function Profile() {
                 </Icon>
                 {customer.coin}
               </TextBlock>
-              <InputProfileDetail placeholder="insert the coin" />
+              <InputProfileDetail
+                value={amount}
+                onChange={handleCoin}
+                placeholder="insert the coin"
+              />
             </ProfileDetailContainer>
             <BtnContainer>
-              <Btn color="#fff" bgColor="#dd4a9e" width="25%">
+              <Btn type="submit" color="#fff" bgColor="#dd4a9e" width="25%">
                 confirm
               </Btn>
             </BtnContainer>

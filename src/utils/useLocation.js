@@ -60,7 +60,6 @@ export function useData ([locationId, floorId]) {
     }
     setLoading(false)
   }
-  console.log(lots)
 
   // RETURN DATA
   return [

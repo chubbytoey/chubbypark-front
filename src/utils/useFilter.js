@@ -54,18 +54,18 @@ export function useFilter () {
       }
     }
   }, [
-    getLocation,
-    getFloors,
-    getLots,
-    onClear,
-    lots,
-    selected,
-    floors,
-    floorInput,
-    isFloor,
-    status,
-    setIsFloor,
-    setStatus
+    // getLocation,
+    // getFloors,
+    // getLots,
+    // onClear,
+    // lots,
+    // selected,
+    // floors,
+    // floorInput,
+    // isFloor,
+    // status,
+    // setIsFloor,
+    // setStatus
   ])
 
   // SET OPTION
