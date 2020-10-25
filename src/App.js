@@ -5,17 +5,22 @@ import withHelmet from './utils/withHelmet'
 import GlobalStyle from './components/GlobalStyle'
 import ActionContext from './contexts/ActionContext'
 import { useFilter } from './utils/useFilter'
-function App () {
+import { useCustomer } from './utils/getUser'
+
+function App() {
   // const [username, setUsername] = useState('')
   // const [password, setPassword] = useState('')
   const [
     { placeOptions, floorOption, selected, isLoading, error, selectInputRef },
     { handleLocation, handleFloor }
   ] = useFilter()
+  const [{ customer }, { getCustomer }] = useCustomer()
 
   return (
     <ActionContext.Provider
       value={{
+        customer,
+        getCustomer,
         placeOptions,
         floorOption,
         selected,
@@ -24,11 +29,10 @@ function App () {
         selectInputRef,
         handleLocation,
         handleFloor
-      }}
-    >
+      }}>
       <GlobalStyle />
       <Router>
-        <Suspense fallback='...loading'>
+        <Suspense fallback="...loading">
           <Switch>
             {Object.keys(routes).map(routeKey => (
               <Route key={routeKey} {...routes[routeKey]} />
