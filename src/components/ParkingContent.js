@@ -24,6 +24,7 @@ const ParkingMap = styled.div`
   display:flex;
   justify-content:center;
   align-items:center;
+  overflow-x:scroll;
 `
 const ParkingFilter = styled.div`
   height: 6vh;
