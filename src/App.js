@@ -9,7 +9,15 @@ function App () {
   // const [username, setUsername] = useState('')
   // const [password, setPassword] = useState('')
   const [
-    { placeOptions, floorOption, selected, isLoading, error, selectInputRef },
+    {
+      placeOptions,
+      floorOption,
+      selected,
+      lots,
+      isLoading,
+      error,
+      selectInputRef
+    },
     { handleLocation, handleFloor }
   ] = useFilter()
 
@@ -19,6 +27,7 @@ function App () {
         placeOptions,
         floorOption,
         selected,
+        lots,
         isLoading,
         error,
         selectInputRef,
