@@ -29,5 +29,9 @@ export default {
   Promotion: {
     path: '/promotion',
     component: lazy(() => import('../pages/Promotion'))
+  },
+  ConfirmOrder: {
+    path: '/confirmorder',
+    component: lazy(() => import('../pages/ConfirmOrder'))
   }
 }
