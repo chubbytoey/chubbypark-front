@@ -146,8 +146,10 @@ function Profile() {
   }
 
   useEffect(() => {
-    if(isUpdate) 
     handleMenu('profileMenu', 'coinMenu', 'profileBlock', 'coinBlock')
+  },[])
+  
+  useEffect(() => {
     getCustomer()
   }, [amount, setAmount, fetchCoin])
 
