@@ -53,14 +53,19 @@ export function useData ([locationId, floorId]) {
     try {
       setLoading(true)
       const testResponse = await fetchParkinglot(locationId)
-      setLots([...new Set((testResponse.data.map(lot => lot.lot_name)).filter(index => index.split('-')[0] === floorId))])
+      setLots([
+        ...new Set(
+          testResponse.data
+            .map(lot => lot.lot_name)
+            .filter(index => index.split('-')[0] === floorId)
+        )
+      ])
       // console.log((testResponse.data.map(lot => lot.lot_name)).filter(index => index.split('-')[0] === floorId))
     } catch (err) {
       setError(err)
     }
     setLoading(false)
   }
-  console.log(lots)
 
   // RETURN DATA
   return [
