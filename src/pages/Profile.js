@@ -43,6 +43,22 @@ async function fetchProfile(data) {
   )
   return accountResponse.json()
 }
+async function fetchPicture(fileName) {
+  const token = JSON.parse(window.localStorage.getItem('storeToken'))
+  const formData = new FormData()
+  formData.append('image',fileName)
+  const accountResponse = await fetch(
+    'http://127.0.0.1:3333/api/v1/assets',
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      body: formData
+    }
+  )
+  return accountResponse.json()
+}
 
 const PictureProfileBlock = styled.div`
   background-color: pink;
@@ -120,7 +136,21 @@ const TextBlock = styled.div`
   align-items: center;
   padding-bottom: 1rem;
 `
-
+const InputBtn = styled.input`
+  outline: none;
+  border: none;
+  /* background-color: #fff; */
+  color: #dd4a9e;
+  /* border: 1px solid #dd4a9e; */
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+`
+const BlockForm = styled.form`
+  display: flex;
+  flex-direction: column;
+`
 function Profile() {
   const { customer, getCustomer } = useContext(ActionContext)
   const [amount, setAmount] = useState('')
@@ -128,6 +158,7 @@ function Profile() {
   const [lastName, setLastName] = useState(customer.last_name)
   const [birthDate, setBirthDate] = useState(customer.birthDate)
   const [gender, setGender] = useState(customer.gender)
+  const [pic, setPic] = useState('')
 
   async function editCoin(event) {
     event.preventDefault()
@@ -155,6 +186,11 @@ function Profile() {
     } catch (e) {
       console.log(e)
     }
+  }
+  async function editPic() {
+    const result = await fetchPicture(pic)
+    console.log( 'yes',result)
+    setPic('')
   }
   function handleMenu(StayMenu, anotherMenu, height) {
     document.getElementById(StayMenu).style.color = '#000'
@@ -189,7 +225,7 @@ function Profile() {
 
   useEffect(() => {
     getCustomer()
-  }, [amount, setAmount, fetchCoin,fetchProfile])
+  }, [amount, setAmount, fetchCoin, fetchProfile])
 
   return (
     <>
@@ -197,9 +233,17 @@ function Profile() {
       <Content>
         <MenuContainer>
           <PictureProfileBlock />
-          <Btn color="#dd4a9e" bgColor="#fff" witdh="30%">
+          {/* <BlockForm onSubmit={editPic}> */}
+          <InputBtn type="file" onChange={(e) => setPic(e.target.files[0])} />
+          <Btn
+            onClick={editPic}
+            type="submit"
+            color="#dd4a9e"
+            bgColor="#fff"
+            witdh="30%">
             Choose new
           </Btn>
+          {/* </BlockForm> */}
           <MenuNavContainer>
             <Menu
               id="profileMenu"
