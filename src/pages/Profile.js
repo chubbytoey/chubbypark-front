@@ -43,24 +43,41 @@ async function fetchProfile(data) {
   )
   return accountResponse.json()
 }
-async function fetchPicture(fileName) {
+
+async function fetchAccountPic(url) {
   const token = JSON.parse(window.localStorage.getItem('storeToken'))
-  const formData = new FormData()
-  formData.append('image',fileName)
   const accountResponse = await fetch(
-    'http://127.0.0.1:3333/api/v1/assets',
+    'http://127.0.0.1:3333/api/v1/account/picture',
     {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: formData
+      body: JSON.stringify(url)
     }
   )
   return accountResponse.json()
 }
 
+async function fetchPicture(fileName) {
+  const token = JSON.parse(window.localStorage.getItem('storeToken'))
+  const formData = new FormData()
+  formData.append('image', fileName)
+  const accountResponse = await fetch('http://127.0.0.1:3333/api/v1/assets', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    body: formData
+  })
+  return accountResponse.json()
+}
+
 const PictureProfileBlock = styled.div`
+  background-image: url(${props => props.src});
+  background-size: cover;
   background-color: pink;
   width: 47%;
   height: 30%;
@@ -147,12 +164,11 @@ const InputBtn = styled.input`
   text-transform: uppercase;
   cursor: pointer;
 `
-const BlockForm = styled.form`
-  display: flex;
-  flex-direction: column;
-`
+
 function Profile() {
-  const { customer, getCustomer } = useContext(ActionContext)
+  const { customer, getCustomer, account, getAccount } = useContext(
+    ActionContext
+  )
   const [amount, setAmount] = useState('')
   const [firstName, setFirstName] = useState(customer.first_name)
   const [lastName, setLastName] = useState(customer.last_name)
@@ -189,7 +205,12 @@ function Profile() {
   }
   async function editPic() {
     const result = await fetchPicture(pic)
-    console.log( 'yes',result)
+    console.log(result.data.path)
+    const data = {
+      url: result.data.path
+    }
+    const result2 = await fetchAccountPic(data)
+    console.log(result2)
     setPic('')
   }
   function handleMenu(StayMenu, anotherMenu, height) {
@@ -220,6 +241,7 @@ function Profile() {
   }
   useEffect(() => {
     getCustomer()
+    getAccount()
     handleMenu('profileMenu', 'coinMenu', 'profileBlock', 'coinBlock')
   }, [])
 
@@ -232,9 +254,9 @@ function Profile() {
       <Navbar />
       <Content>
         <MenuContainer>
-          <PictureProfileBlock />
+          <PictureProfileBlock src={account.url} />
           {/* <BlockForm onSubmit={editPic}> */}
-          <InputBtn type="file" onChange={(e) => setPic(e.target.files[0])} />
+          <InputBtn type="file" onChange={e => setPic(e.target.files[0])} />
           <Btn
             onClick={editPic}
             type="submit"
