@@ -9,6 +9,7 @@ const BlindLayer = styled.div`
   height: 60vh;
   border-radius: 1rem;
   position: absolute;
+  display: ${props => (props.Token !== null ? 'none' : 'block')};
 `
 
 const BlockMap = styled.div`
@@ -84,9 +85,9 @@ const Close = styled.span`
 
 function LotMap () {
   const token = window.localStorage.getItem('storeToken')
-  if (token !== null) {
-    document.getElementById('BlindLay').style.display = 'none'
-  }
+  // if (token !== null) {
+  //   document.getElementById('BlindLay').style.display = 'none'
+  // }
 
   const { lots } = useContext(ActionContext)
 
@@ -102,7 +103,7 @@ function LotMap () {
 
   return (
     <>
-      <BlindLayer as='a' id='BlindLay' onClick={showModal} />
+      <BlindLayer as='a' id='BlindLay' onClick={showModal} token={token} />
       <Modal id='myModal'>
         <ModalContent>
           <Close id='closeBtn' onClick={closeModal}>
