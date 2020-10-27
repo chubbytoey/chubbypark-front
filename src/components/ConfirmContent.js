@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import { MoneyDollarCircle } from '@styled-icons/remix-fill'
 import Car2 from '../assets/car2.png'
 import Drop from '../assets/drop.png'
 import { Link } from 'react-router-dom'
-
+import ActionContext from '../contexts/ActionContext'
 const ConfirmContainer = styled.div`
   height: 83vh;
   width: 100vw;
@@ -146,6 +146,12 @@ function ConfirmContent ({
   priceHour,
   locationId
 }) {
+  const { customer, getCustomer } = useContext(ActionContext)
+
+  useEffect(() => {
+    getCustomer()
+  }, [])
+
   return (
     <>
       <ConfirmContainer>
@@ -156,7 +162,7 @@ function ConfirmContent ({
         <InformationSide>
           <InfoContainer>
             <CoinStatus>
-              <MoneyDollarCircle size='1.5rem' /> Balance Coin :
+              <MoneyDollarCircle size='1.5rem' /> Balance Coin : {customer.coin}
             </CoinStatus>
             <LotInfo>
               <DataInfo>Location : {lotPlace}</DataInfo>
