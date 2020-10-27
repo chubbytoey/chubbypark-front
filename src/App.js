@@ -23,13 +23,14 @@ function App() {
     { handleLocation, handleFloor }
   ] = useFilter()
   const [{ customer }, { getCustomer }] = useCustomer()
-  const [{ account }, { getAccount }] = useAccount()
+  const [{ account, setAccount }, { getAccount }] = useAccount()
 
   return (
     <ActionContext.Provider
       value={{
         customer,
         account,
+        setAccount,
         getAccount,
         getCustomer,
         placeOptions,
