@@ -83,6 +83,11 @@ const Close = styled.span`
 `
 
 function LotMap () {
+  const token = window.localStorage.getItem('storeToken')
+  if (token !== null) {
+    document.getElementById('BlindLay').style.display = 'none'
+  }
+
   const { lots } = useContext(ActionContext)
 
   // When the user clicks the button, open the modal
@@ -97,7 +102,7 @@ function LotMap () {
 
   return (
     <>
-      <BlindLayer as='a' onClick={showModal} />
+      <BlindLayer as='a' id='BlindLay' onClick={showModal} />
       <Modal id='myModal'>
         <ModalContent>
           <Close id='closeBtn' onClick={closeModal}>
