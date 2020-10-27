@@ -118,7 +118,7 @@ const Payment = styled.div`
 `
 const PaymentItem = styled.div`
   font-size: 1.4rem;
-  color: ${props => (props.dataType === 'conttent' ? '#bdbdbd' : '#dd4a9e')};
+  color: ${props => (props.dataType === 'content' ? '#bdbdbd' : '#dd4a9e')};
 
   font-weight: bold;
   height: auto;
