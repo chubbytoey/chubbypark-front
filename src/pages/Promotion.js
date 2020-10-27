@@ -1,29 +1,40 @@
 import React, { useState, useEffect, useContext } from 'react'
-import ActionContext from '../contexts/ActionContext'
 import styled from 'styled-components'
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
+import ads1 from '../assets/ads1.jpg'
+import ads2 from '../assets/ads2.jpg'
+import ads3 from '../assets/ads3.jpg'
 
-const Text = styled.div`
-  font-size: 20px;
+const Content = styled.div`
+  height:200vh;
+  width:100%;
+  background:#fff;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
 `
-
+const AdsBlock = styled.div`
+  background-color:red;
+  background-image:url(${props => props.src});
+  background-size:cover;
+  width:80%;
+  height:30%;
+  margin-top:1rem;
+  background-position:center;
+`
 function Promotion() {
-  const { customer, isLoading, error, getCustomer } = useContext(ActionContext)
-  // const [{ customer, isLoading, error }, { getCustomer }] = useCustomer()
-  // console.log(customer)
-  useEffect(() => {
-    getCustomer()
-  }, [])
 
-  if (!isLoading) {
-    return (
-      <>
-        <Text>{customer.first_name}</Text>
-      </>
-    )
-  }
   return (
     <>
-      <div>{error}</div>
+    <Navbar />
+    <Content>
+      <AdsBlock src={ads1} />
+      <AdsBlock src={ads2}/>
+      <AdsBlock src={ads3}/>
+    </Content>
+    <Footer />
     </>
   )
 }

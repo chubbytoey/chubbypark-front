@@ -212,6 +212,7 @@ function Profile() {
     const result2 = await fetchAccountPic(data)
     console.log(result2)
     setPic('')
+    window.location.assign('/profile')
   }
   function handleMenu(StayMenu, anotherMenu, height) {
     document.getElementById(StayMenu).style.color = '#000'
@@ -255,7 +256,6 @@ function Profile() {
       <Content>
         <MenuContainer>
           <PictureProfileBlock src={account.url} />
-          {/* <BlockForm onSubmit={editPic}> */}
           <InputBtn type="file" onChange={e => setPic(e.target.files[0])} />
           <Btn
             onClick={editPic}
@@ -265,7 +265,6 @@ function Profile() {
             witdh="30%">
             Choose new
           </Btn>
-          {/* </BlockForm> */}
           <MenuNavContainer>
             <Menu
               id="profileMenu"

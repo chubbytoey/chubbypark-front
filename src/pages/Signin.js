@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import styled from 'styled-components'
@@ -17,6 +17,7 @@ import {
   SigninInput,
   SigninButton
 } from '../components/AuthLayout'
+import ActionContext from '../contexts/ActionContext'
 
 /* global fetch */
 async function FetchResponse(accountDataform) {
@@ -44,6 +45,7 @@ const ForgetPassword = styled.h3`
 `
 
 function Signin() {
+  const { setAccount, account, getAccount } = useContext(ActionContext)
   const tokenTest = window.localStorage.getItem('storeToken')
   function checkLogin() {
     tokenTest !== null ? window.location.assign('/') : console.log('not login')
@@ -69,6 +71,7 @@ function Signin() {
         'storeToken',
         JSON.stringify(result.access.token)
       )
+
       window.localStorage.setItem('username', result.username)
       window.location.assign('/')
       // window.open('/')
@@ -91,12 +94,12 @@ function Signin() {
   return (
     <>
       <Navbar />
-      <Content height='67'>
+      <Content height="67">
         <SignInWrapper>
           <SideButton as="a" onClick={GoSignUp}>
             <SideText>SIGN UP</SideText>
           </SideButton>
-          <SigninBlock height='17'>
+          <SigninBlock height="17">
             <SigninBlockLayout onSubmit={SigninAccount}>
               <SigninBlockTitle>sign in</SigninBlockTitle>
 
