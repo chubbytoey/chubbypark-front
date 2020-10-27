@@ -5,7 +5,7 @@ import withHelmet from './utils/withHelmet'
 import GlobalStyle from './components/GlobalStyle'
 import ActionContext from './contexts/ActionContext'
 import { useFilter } from './utils/useFilter'
-import { useCustomer } from './utils/getUser'
+import { useCustomer, useAccount } from './utils/getUser'
 
 function App () {
   // const [username, setUsername] = useState('')
@@ -23,11 +23,15 @@ function App () {
     { handleLocation, handleFloor }
   ] = useFilter()
   const [{ customer }, { getCustomer }] = useCustomer()
+  const [{ account }, { getAccount }] = useAccount()
 
   return (
     <ActionContext.Provider
       value={{
         customer,
+        account,
+        getAccount,
+        getCustomer,
         placeOptions,
         floorOption,
         selected,

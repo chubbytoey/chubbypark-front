@@ -26,16 +26,58 @@ async function fetchCoin(amount) {
   })
   return accountResponse.json()
 }
-async function fetchCustomer() {
+
+async function fetchProfile(data) {
   const token = JSON.parse(window.localStorage.getItem('storeToken'))
-  const response = await fetch('http://127.0.0.1:3333/api/v1/customers/user', {
+  const accountResponse = await fetch(
+    'http://127.0.0.1:3333/api/v1/profiles/user',
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
+  )
+  return accountResponse.json()
+}
+
+async function fetchAccountPic(url) {
+  const token = JSON.parse(window.localStorage.getItem('storeToken'))
+  const accountResponse = await fetch(
+    'http://127.0.0.1:3333/api/v1/account/picture',
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(url)
+    }
+  )
+  return accountResponse.json()
+}
+
+async function fetchPicture(fileName) {
+  const token = JSON.parse(window.localStorage.getItem('storeToken'))
+  const formData = new FormData()
+  formData.append('image', fileName)
+  const accountResponse = await fetch('http://127.0.0.1:3333/api/v1/assets', {
+    method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`
-    }
+    },
+    body: formData
   })
-  return response.json()
+  return accountResponse.json()
 }
+
 const PictureProfileBlock = styled.div`
+  background-image: url(${props => props.src});
+  background-size: cover;
   background-color: pink;
   width: 47%;
   height: 30%;
@@ -111,25 +153,66 @@ const TextBlock = styled.div`
   align-items: center;
   padding-bottom: 1rem;
 `
-
+const InputBtn = styled.input`
+  outline: none;
+  border: none;
+  /* background-color: #fff; */
+  color: #dd4a9e;
+  /* border: 1px solid #dd4a9e; */
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+`
 
 function Profile() {
-  console.log('run')
+  const { customer, getCustomer, account, getAccount } = useContext(
+    ActionContext
+  )
   const [amount, setAmount] = useState('')
-  const [isUpdate , setIsUpdate] = useState(false)
-  const { customer, getCustomer } = useContext(ActionContext)
+  const [firstName, setFirstName] = useState(customer.first_name)
+  const [lastName, setLastName] = useState(customer.last_name)
+  const [birthDate, setBirthDate] = useState(customer.birthDate)
+  const [gender, setGender] = useState(customer.gender)
+  const [pic, setPic] = useState('')
 
-  async function updateCoin(event) {
-    setIsUpdate(true)
+  async function editCoin(event) {
     event.preventDefault()
     const updateAmount = {
       amount: parseInt(amount)
     }
-    const result = await fetchCoin(updateAmount)
+    await fetchCoin(updateAmount)
     setAmount('')
-    setIsUpdate(false)
   }
-
+  async function editProfile(event) {
+    event.preventDefault()
+    try {
+      const dataProfile = {
+        first_name: firstName,
+        last_name: lastName,
+        birth_date: birthDate,
+        gender: gender
+      }
+      await fetchProfile(dataProfile)
+      console.log(dataProfile)
+      setFirstName('')
+      setLastName('')
+      setBirthDate('')
+      setGender('')
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  async function editPic() {
+    const result = await fetchPicture(pic)
+    console.log(result.data.path)
+    const data = {
+      url: result.data.path
+    }
+    const result2 = await fetchAccountPic(data)
+    console.log(result2)
+    setPic('')
+  }
   function handleMenu(StayMenu, anotherMenu, height) {
     document.getElementById(StayMenu).style.color = '#000'
     document.getElementById(StayMenu).style.borderLeft = '5px solid #dd4a9e'
@@ -144,22 +227,45 @@ function Profile() {
   const handleCoin = event => {
     setAmount(event.target.value)
   }
+  const handleFName = event => {
+    setFirstName(event.target.value)
+  }
+  const handleLName = event => {
+    setLastName(event.target.value)
+  }
+  const handleBirthDate = event => {
+    setBirthDate(event.target.value)
+  }
+  const handleGender = () => {
+    setGender(document.getElementById('gender').value)
+  }
+  useEffect(() => {
+    getCustomer()
+    getAccount()
+    handleMenu('profileMenu', 'coinMenu', 'profileBlock', 'coinBlock')
+  }, [])
 
   useEffect(() => {
-    if(isUpdate) 
-    handleMenu('profileMenu', 'coinMenu', 'profileBlock', 'coinBlock')
     getCustomer()
-  }, [amount, setAmount, fetchCoin])
+  }, [amount, setAmount, fetchCoin, fetchProfile])
 
   return (
     <>
       <Navbar />
       <Content>
         <MenuContainer>
-          <PictureProfileBlock />
-          <Btn color="#dd4a9e" bgColor="#fff" witdh="30%">
+          <PictureProfileBlock src={account.url} />
+          {/* <BlockForm onSubmit={editPic}> */}
+          <InputBtn type="file" onChange={e => setPic(e.target.files[0])} />
+          <Btn
+            onClick={editPic}
+            type="submit"
+            color="#dd4a9e"
+            bgColor="#fff"
+            witdh="30%">
             Choose new
           </Btn>
+          {/* </BlockForm> */}
           <MenuNavContainer>
             <Menu
               id="profileMenu"
@@ -174,20 +280,41 @@ function Profile() {
           </MenuNavContainer>
         </MenuContainer>
         <ContentContainer id="container">
-          <ProfileContainerInside id="profileBlock">
+          <ProfileContainerInside onSubmit={editProfile} id="profileBlock">
             <ProfileTitle>profile</ProfileTitle>
             <ProfileDetailContainer>
               <ProfileDetailText>first name</ProfileDetailText>
-              <InputProfileDetail placeholder={customer.first_name} />
+              <InputProfileDetail
+                id="FName"
+                value={firstName}
+                onChange={handleFName}
+                placeholder="first name"
+              />
               <ProfileDetailText>last name</ProfileDetailText>
-              <InputProfileDetail placeholder={customer.last_name} />
+              <InputProfileDetail
+                id="LName"
+                value={lastName}
+                onChange={handleLName}
+                placeholder="last name"
+              />
               <ProfileDetailText>Birth Date</ProfileDetailText>
-              <InputProfileDetail type="date" />
+              <InputProfileDetail
+                id="bDate"
+                value={birthDate}
+                onChange={handleBirthDate}
+                type="date"
+              />
               <ProfileDetailText>gender</ProfileDetailText>
-              <SelectProfileDetail>
-                <option>male</option>
-                <option>female</option>
-                <option>lgbt</option>
+              <SelectProfileDetail
+                id="gender"
+                value={gender}
+                onChange={handleGender}>
+                <option selected disabled hidden value="">
+                  select
+                </option>
+                <option value="male">male</option>
+                <option value="female">female</option>
+                <option value="lgbt">lgbt</option>
               </SelectProfileDetail>
             </ProfileDetailContainer>
             <BtnContainer>
@@ -197,7 +324,7 @@ function Profile() {
             </BtnContainer>
           </ProfileContainerInside>
 
-          <ProfileContainerInside onSubmit={updateCoin} id="coinBlock">
+          <ProfileContainerInside onSubmit={editCoin} id="coinBlock">
             <ProfileTitle>coin</ProfileTitle>
             <ProfileDetailContainer>
               <TextBlock>
