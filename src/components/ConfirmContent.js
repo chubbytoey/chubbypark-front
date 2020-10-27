@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { MoneyDollarCircle } from '@styled-icons/remix-fill'
 import Car2 from '../assets/car2.png'
 import Drop from '../assets/drop.png'
+import { Link } from 'react-router-dom'
+
 const ConfirmContainer = styled.div`
   height: 83vh;
   width: 100vw;
@@ -86,41 +88,69 @@ const Btn = styled.div`
 const ImageSide = styled.div`
   flex: 1.5;
   height: 100%;
-  padding-top:5vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
-  align-items:center;
+  padding-top: 5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 `
 
 const DropImage = styled.div`
-  width:10vw;
-  height:28.5vh;
+  width: 10vw;
+  height: 28.5vh;
   background-image: url(${props => props.src});
   background-size: cover;
-  display:flex;
+  display: flex;
   font-weight: bold;
   color: #fff;
-  font-size:1.5rem;
-  justify-content:center;
-  align-items:center;
-
+  font-size: 1.5rem;
+  justify-content: center;
+  align-items: center;
 `
 
 const CarImage = styled.div`
-  width:35vw;
-  height:35vh;
+  width: 35vw;
+  height: 35vh;
   background-image: url(${props => props.src});
   background-size: cover;
-
 `
 
-function ConfirmContent () {
+/* global fetch */
+async function Reserve (lotId, locationId) {
+  const token = JSON.parse(window.localStorage.getItem('storeToken'))
+  console.log(lotId, locationId)
+  const reserveForm = {
+    lot_name: lotId
+  }
+
+  const lotResponse = await fetch(
+    `http://127.0.0.1:3333/api/v1/reserve/${locationId}`,
+    {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(reserveForm)
+    }
+  )
+  return lotResponse.json()
+}
+
+function ConfirmContent ({
+  lotPlace,
+  lotId,
+  lotType,
+  freeHour,
+  priceHour,
+  locationId
+}) {
   return (
     <>
       <ConfirmContainer>
         <ImageSide>
-          <DropImage src={Drop}>1-10</DropImage>
+          <DropImage src={Drop}>{lotId}</DropImage>
           <CarImage src={Car2} />
         </ImageSide>
         <InformationSide>
@@ -129,18 +159,22 @@ function ConfirmContent () {
               <MoneyDollarCircle size='1.5rem' /> Balance Coin :
             </CoinStatus>
             <LotInfo>
-              <DataInfo>Location :</DataInfo>
-              <DataInfo>Parking ID :</DataInfo>
-              <DataInfo>Category :</DataInfo>
+              <DataInfo>Location : {lotPlace}</DataInfo>
+              <DataInfo>Parking ID : {lotId}</DataInfo>
+              <DataInfo>Category : {lotType}</DataInfo>
             </LotInfo>
             <ChargeInfo>
-              <InsideCharge>Free Hour :</InsideCharge>
-              <InsideCharge>Price/Hour :</InsideCharge>
+              <InsideCharge>Free Hour : {freeHour} Hours</InsideCharge>
+              <InsideCharge>Price/Hour : {priceHour} Baht/hours</InsideCharge>
             </ChargeInfo>
           </InfoContainer>
           <ButtonContainer>
             <Btn>CANCEL</Btn>
-            <Btn>CONFIRM</Btn>
+            <Link to='/check'>
+              <Btn as='a' onClick={Reserve(lotId, locationId)}>
+                CONFIRM
+              </Btn>
+            </Link>
           </ButtonContainer>
         </InformationSide>
       </ConfirmContainer>
