@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import userIcon from '../assets/user-icon.png'
 import ActionContext from '../contexts/ActionContext'
@@ -14,9 +14,7 @@ import {
 } from '../components/NavbarStyled'
 
 function Navbar() {
-  const { account, getAccount } = useContext(
-    ActionContext
-  )
+  const { account, getAccount } = useContext(ActionContext)
   const tokenTest = window.localStorage.getItem('storeToken')
   const [username, setUsername] = useState('')
 
@@ -29,6 +27,15 @@ function Navbar() {
       document.getElementById('login').style.display = 'none'
     }
   }
+  // function checkLogin() {
+  //   if (tokenTest !== null) {
+  //     document.getElementById('notlogin').style.display = 'none'
+  //     setUsername(window.localStorage.getItem('username'))
+  //   } else {
+  //     document.getElementById('button').style.display = 'none'
+  //     document.getElementById('login').style.display = 'none'
+  //   }
+  // }
 
   function Logout() {
     window.localStorage.removeItem('storeToken')
@@ -38,7 +45,12 @@ function Navbar() {
   useEffect(() => {
     getAccount()
     checkLogin()
+    console.log('hey',account.username)
   }, [])
+
+  // useEffect(()=>{
+  //   getAccount()
+  // },[account])
   return (
     <NavbarContainer>
       <NavbarTitle>
