@@ -9,7 +9,7 @@ async function fetchLocations () {
 // GET DATA FROM PARKINGLOT TABLE
 async function fetchParkinglot (id) {
   const parkingLotResponse = await fetch(
-    `http://localhost:3333/api/v1/reserve/${id}`
+    `http://localhost:3333/api/v1/reserve/${id}?references=category,location`
   )
 
   return parkingLotResponse.json()
@@ -56,10 +56,17 @@ export function useData ([locationId, floorId]) {
       setLots([
         ...new Set(
           testResponse.data
-            .map(lot => lot.lot_name)
-            .filter(index => index.split('-')[0] === floorId)
+            .map(lot => lot)
+            .filter(index => index.lot_name.split('-')[0] === floorId)
         )
       ])
+      // console.log([
+      //   ...new Set(
+      //     testResponse.data
+      //       .map(lot => lot)
+      //       .filter(index => index.lot_name.split('-')[0] === floorId)
+      //   )
+      // ])
       // console.log((testResponse.data.map(lot => lot.lot_name)).filter(index => index.split('-')[0] === floorId))
     } catch (err) {
       setError(err)
