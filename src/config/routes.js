@@ -33,5 +33,10 @@ export default {
   ConfirmOrder: {
     path: '/confirmorder',
     component: lazy(() => import('../pages/ConfirmOrder'))
+  },
+  Check: {
+    path: '/check',
+    component: lazy(() => import('../pages/Check'))
   }
+
 }

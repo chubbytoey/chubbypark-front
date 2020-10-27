@@ -7,7 +7,7 @@ import ActionContext from './contexts/ActionContext'
 import { useFilter } from './utils/useFilter'
 import { useCustomer, useAccount } from './utils/getUser'
 
-function App() {
+function App () {
   // const [username, setUsername] = useState('')
   // const [password, setPassword] = useState('')
   const [
@@ -40,12 +40,14 @@ function App() {
         isLoading,
         error,
         selectInputRef,
+        getCustomer,
         handleLocation,
         handleFloor
-      }}>
+      }}
+    >
       <GlobalStyle />
       <Router>
-        <Suspense fallback="...loading">
+        <Suspense fallback='...loading'>
           <Switch>
             {Object.keys(routes).map(routeKey => (
               <Route key={routeKey} {...routes[routeKey]} />
