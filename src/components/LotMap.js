@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import ActionContext from '../contexts/ActionContext'
 import Car from '../assets/car1.png'
-
+import { Link } from 'react-router-dom'
 const BlindLayer = styled.div`
   background-color: rgba(255, 255, 255, 0.4);
   width: 80vw;
@@ -12,13 +12,20 @@ const BlindLayer = styled.div`
 `
 
 const BlockMap = styled.div`
-  display: flex;
-  flex-wrap: wrap;
   width: 75vw;
   height: 55vh;
-
-  align-content: flex-start;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding-top: 5vh;
 `
+const BlockWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  width: 30vw;
+`
+
 const Block = styled.div`
   background-image: url(${props => props.src});
   background-size: cover;
@@ -42,8 +49,6 @@ const Modal = styled.div`
   justify-content: center;
   align-items: center;
 `
-
-/* Modal Content */
 const ModalContent = styled.div`
   background-color: #fff;
   height: 30%;
@@ -52,20 +57,17 @@ const ModalContent = styled.div`
   border-radius: 2rem;
   box-shadow: 1px 0px 13px 0px rgba(232, 64, 130, 0.75);
   display: flex;
-  justify-content:flex-end;
-  
-  
+  justify-content: flex-end;
 `
 const Message = styled.div`
-  font-size:1.5rem;
+  font-size: 1.5rem;
   height: 100%;
   width: 120%;
-  
-  display:flex;
-  justify-content:center;
-  align-items:center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
-/* The Close Button */
 const Close = styled.span`
   color: #aaaaaa;
   float: right;
@@ -105,11 +107,98 @@ function LotMap () {
         </ModalContent>
       </Modal>
       <BlockMap>
-        {lots.map(index => (
-          <>
-            <Block src={Car}>{index}</Block>
-          </>
-        ))}
+        <BlockWrapper>
+          {lots.slice(0, 12).map(index => (
+            <>
+              <Link
+                to={{
+                  pathname: '/confirmorder',
+                  state: {
+                    lotPlace: index.location.location_name,
+                    lotId: index.lot_name,
+                    lotType: index.category.type,
+                    freeHour: index.category.free_hour,
+                    priceHour: index.location.price_rate,
+                    locationId: index.location_id
+                  }
+                }}
+              >
+                <Block as='a' src={Car}>
+                  {index.lot_name}
+                </Block>
+              </Link>
+            </>
+          ))}
+        </BlockWrapper>
+        <BlockWrapper>
+          {lots.slice(12, 24).map(index => (
+            <>
+              <Link
+                to={{
+                  pathname: '/confirmorder',
+                  state: {
+                    lotPlace: index.location.location_name,
+                    lotId: index.lot_name,
+                    lotType: index.category.type,
+                    freeHour: index.category.free_hour,
+                    priceHour: index.location.price_rate,
+                    locationId: index.location_id
+                  }
+                }}
+              >
+                <Block as='a' src={Car}>
+                  {index.lot_name}
+                </Block>
+              </Link>
+            </>
+          ))}
+        </BlockWrapper>
+        <BlockWrapper>
+          {lots.slice(24, 30).map(index => (
+            <>
+              <Link
+                to={{
+                  pathname: '/confirmorder',
+                  state: {
+                    lotPlace: index.location.location_name,
+                    lotId: index.lot_name,
+                    lotType: index.category.type,
+                    freeHour: index.category.free_hour,
+                    priceHour: index.location.price_rate,
+                    locationId: index.location_id
+                  }
+                }}
+              >
+                <Block as='a' src={Car}>
+                  {index.lot_name}
+                </Block>
+              </Link>
+            </>
+          ))}
+        </BlockWrapper>
+        <BlockWrapper>
+          {lots.slice(30, 36).map(index => (
+            <>
+              <Link
+                to={{
+                  pathname: '/confirmorder',
+                  state: {
+                    lotPlace: index.location.location_name,
+                    lotId: index.lot_name,
+                    lotType: index.category.type,
+                    freeHour: index.category.free_hour,
+                    priceHour: index.location.price_rate,
+                    locationId: index.location_id
+                  }
+                }}
+              >
+                <Block as='a' src={Car}>
+                  {index.lot_name}
+                </Block>
+              </Link>
+            </>
+          ))}
+        </BlockWrapper>
       </BlockMap>
     </>
   )
